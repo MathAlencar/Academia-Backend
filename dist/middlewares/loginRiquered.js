@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken'; // Importanto a biblioteca para validação do token.
-import Usuarios from '../Models/Usuarios';
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _jsonwebtoken = require('jsonwebtoken'); var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken); // Importanto a biblioteca para validação do token.
+var _Usuarios = require('../Models/Usuarios'); var _Usuarios2 = _interopRequireDefault(_Usuarios);
 
 // Exportando a função que irá fazer a vaidação do meu token.
 
-export default async (req, res, next) => {
+exports. default = async (req, res, next) => {
   const { authorization } = req.headers; // recebendo o meu token que vem do header
 
   // Caso for falso ele irá reorna ruma mensagem ao usuário.
@@ -19,11 +19,11 @@ export default async (req, res, next) => {
   // Fazendo um try catch, onde ele irá verificar se o token é valido ou não, caso não ele irá receber uma mensagem e cairá no catch
   try {
     // usando o metódo da classe jwt para realizar a validação do token enviado pelo usuário.
-    const dados = jwt.verify(token, process.env.TOKEN_SECRET); // Aqui ele irá retornar os dados do usuário, que será retirado do prórpio token
+    const dados = _jsonwebtoken2.default.verify(token, process.env.TOKEN_SECRET); // Aqui ele irá retornar os dados do usuário, que será retirado do prórpio token
     const { id, email } = dados; // realizando a desestruturação do objeto.
 
     // verificando se o e-mail é igual ao que está logado no banco de dados ( para se caso rolar algum update ):
-    const user = await Usuarios.findOne({
+    const user = await _Usuarios2.default.findOne({
       where: {
         id,
         email,

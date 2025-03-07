@@ -1,9 +1,9 @@
-import Usuarios from '../Models/Usuarios';
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _Usuarios = require('../Models/Usuarios'); var _Usuarios2 = _interopRequireDefault(_Usuarios);
 
 class Usuarioscontrollers {
   async store(req, res) {
     try {
-      const novoUsuario = await Usuarios.create(req.body);
+      const novoUsuario = await _Usuarios2.default.create(req.body);
       const { id, nome, email } = novoUsuario;
       return res.json({ id, nome, email });
     } catch (e) {
@@ -18,7 +18,7 @@ class Usuarioscontrollers {
   async index(req, res) {
     try {
       // attributes: ['id', 'nome', 'email'] -> usando isso você pode especificar quais colunas de informações você irá desejar.
-      const users = await Usuarios.findAll({ attributes: ['id', 'nome', 'email'] });
+      const users = await _Usuarios2.default.findAll({ attributes: ['id', 'nome', 'email'] });
       return res.json(users);
     } catch (e) {
       return res.json(null);
@@ -28,7 +28,7 @@ class Usuarioscontrollers {
   // show
   async show(req, res) {
     try {
-      const users = await Usuarios.findByPk(req.params.id);
+      const users = await _Usuarios2.default.findByPk(req.params.id);
 
       const { nome, id, email } = users;
 
@@ -55,7 +55,7 @@ class Usuarioscontrollers {
         });
       } // Fica até redundante realizar essa validação.
 
-      const user = await Usuarios.findByPk(req.userId);
+      const user = await _Usuarios2.default.findByPk(req.userId);
 
       if (!user) {
         return res.status(400).json({
@@ -75,7 +75,7 @@ class Usuarioscontrollers {
   // Delete
   async delete(req, res) {
     try {
-      const user = await Usuarios.findByPk(req.userId);
+      const user = await _Usuarios2.default.findByPk(req.userId);
 
       if (!user) {
         return res.status(400).json({
@@ -93,7 +93,7 @@ class Usuarioscontrollers {
   }
 }
 
-export default new Usuarioscontrollers();
+exports. default = new Usuarioscontrollers();
 
 /*
 Para cada controllers podemos ter no máximo 5 metódos.

@@ -1,6 +1,6 @@
-import Sequelize, { Model } from 'sequelize';
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize'); var _sequelize2 = _interopRequireDefault(_sequelize);
 
-export default class Aluno extends Model {
+ class Aluno extends _sequelize.Model {
   static init(sequelize) {
     super.init({
       nome: {
@@ -11,7 +11,7 @@ export default class Aluno extends Model {
             msg: 'Campo nome deve ter entre 3 a 255 caracteres',
           },
         },
-        type: Sequelize.STRING,
+        type: _sequelize2.default.STRING,
       },
       sobrenome: {
         defaultValue: '',
@@ -21,7 +21,7 @@ export default class Aluno extends Model {
             msg: 'Campo sobrenome deve ter entre 3 a 255 caracteres',
           },
         },
-        type: Sequelize.STRING,
+        type: _sequelize2.default.STRING,
       },
       email: {
         defaultValue: '',
@@ -33,7 +33,7 @@ export default class Aluno extends Model {
             msg: 'Campo e-mail inválido',
           },
         },
-        type: Sequelize.STRING,
+        type: _sequelize2.default.STRING,
       },
       idade: {
         defaultValue: 0,
@@ -42,7 +42,7 @@ export default class Aluno extends Model {
             msg: 'Por favor informe um número válido',
           },
         },
-        type: Sequelize.INTEGER,
+        type: _sequelize2.default.INTEGER,
       },
       peso: {
         defaultValue: 0,
@@ -51,7 +51,7 @@ export default class Aluno extends Model {
             msg: 'Por favor informe um peso válido',
           },
         },
-        type: Sequelize.FLOAT,
+        type: _sequelize2.default.FLOAT,
       },
       altura: {
         defaultValue: 0,
@@ -60,7 +60,7 @@ export default class Aluno extends Model {
             msg: 'Por favor informe uma altura válida',
           },
         },
-        type: Sequelize.FLOAT,
+        type: _sequelize2.default.FLOAT,
       },
     }, {
       sequelize,
@@ -73,4 +73,4 @@ export default class Aluno extends Model {
   static associate(models) {
     this.hasMany(models.Foto, { foreignKey: 'aluno_id' });
   }
-}
+} exports.default = Aluno;
