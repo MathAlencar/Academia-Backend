@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Usuarios from '../Models/Usuarios';
+import Administrador from '../Models/Administrador';
 
 class TokenControllers {
   async store(req, res) {
@@ -8,26 +8,24 @@ class TokenControllers {
 
       if (!email || !password) {
         return res.status(400).json({
-          errors: ['Credenciais inválidas.'],
+          errors: ['Credenciais inválidas'],
         });
       }
 
-      const user = await Usuarios.findOne({ where: { email } });
+      const user = await Administrador.findOne({ where: { email } });
 
       if (!user) {
-        return res.status(400).json({
-          errors: ['Usuário não existe.'],
+        return res.status(404).json({
+          errors: ['Usuário não existe'],
         });
       }
 
-      // Aqui você criou uma função na sua Classe usuário que valida usa o Hash para descobrir a senha do usuário.
       if (!(await user.passwordIsValida(password))) {
         return res.status(400).json({
-          errors: ['Senha inválida.'],
+          errors: ['Usuário inválido'],
         });
       }
 
-      // payLoad -> vai ser as informações do noss usuário que podemos resgatar de dentro do nosso jwt.
       const { id } = user;
       const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRATION,
@@ -35,7 +33,9 @@ class TokenControllers {
 
       return res.status(200).json({ token });
     } catch (e) {
-      return res.status(400).json(null);
+      return res.status(400).json({
+        errors: e,
+      });
     }
   }
 }

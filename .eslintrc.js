@@ -22,5 +22,6 @@ module.exports = {
     'max-len': 'off',
     'no-param-reassign': 'off',
     camelcase: 'off',
+    'no-use-before-define': 'off',
   },
 };
