@@ -6,8 +6,17 @@ dotenv.config();
 import './src/database';
 
 import express from 'express';
-import AdminRoutes from './src/routes/administradorRoutes';
-import tokenRoutes from './src/routes/tokenRoutes';
+import AdminRoutes from './src/routes/administrador/administradorRoutes';
+import AdmintokenRoutes from './src/routes/administrador/TokenRoutes';
+import PersonalRoutes from './src/routes/personal/personalRouter';
+import tokenPersonalRoutes from './src/routes/personal/personalTokenRoutes';
+import PersonalFotoRoutes from './src/routes/personal/personalFotosRouter';
+import PersonalAgendaRoutes from './src/routes/personal/personalAgendaRoutes';
+import AlunosRoutes from './src/routes/alunos/alunosRoutes';
+import tokenAlunosRoutes from './src/routes/alunos/alunosTokenRoutes';
+import AlunoFotosRoutes from './src/routes/alunos/alunosFotosRoutes';
+import AgendaRoutes from './src/routes/AgendaGeral/agendaRoutes';
+import EnderecosRoutes from './src/routes/enderecos/enredecosRoutes';
 
 class App {
   constructor() {
@@ -24,7 +33,16 @@ class App {
 
   routes() {
     this.app.use('/admin/', AdminRoutes);
-    this.app.use('/token/', tokenRoutes);
+    this.app.use('/enderecos/', EnderecosRoutes);
+    this.app.use('/token/', AdmintokenRoutes);
+    this.app.use('/alunos/token/', tokenAlunosRoutes);
+    this.app.use('/alunos/', AlunosRoutes);
+    this.app.use('/alunos/foto/', AlunoFotosRoutes);
+    this.app.use('/personal/agenda/', PersonalAgendaRoutes);
+    this.app.use('/personal/token/', tokenPersonalRoutes);
+    this.app.use('/personal/foto/', PersonalFotoRoutes);
+    this.app.use('/personal/', PersonalRoutes);
+    this.app.use('/agenda/', AgendaRoutes);
   }
 }
 

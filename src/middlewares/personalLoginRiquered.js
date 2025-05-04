@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Administrador from '../Models/Administrador';
+import Personal from '../Models/Personal';
 
 export default async (req, res, next) => {
   const { authorization } = req.headers;
@@ -13,10 +13,10 @@ export default async (req, res, next) => {
   const [, token] = authorization.split(' ');
 
   try {
-    const dados = jwt.verify(token, process.env.TOKEN_SECRET);
+    const dados = jwt.verify(token, process.env.TOKEN_SECRET_USER);
     const { id, email } = dados;
 
-    const user = Administrador.findOne({
+    const user = Personal.findOne({
       where: {
         id,
         email,
@@ -29,13 +29,13 @@ export default async (req, res, next) => {
       });
     }
 
-    req.userId = id;
+    req.userID = id;
     req.userEmail = email;
 
     return next();
   } catch (e) {
     return res.status(401).json({
-      errors: ['Token expirado ou inválido'],
+      errors: ['Token expirado ou ínvalido'],
     });
   }
 };

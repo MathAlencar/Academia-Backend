@@ -1,10 +1,9 @@
-import Administrador from '../Models/Administrador';
+import Administrador from '../../Models/Administrador';
 
 // Classe responsável por manipular novos usuários/administradores.
 class AdministradorControllers {
   async store(req, res) {
     try {
-      console.log(req.body);
       const newUser = await Administrador.create(req.body);
       const { id, nome, email } = newUser;
       return res.json({ id, nome, email });
@@ -38,6 +37,32 @@ class AdministradorControllers {
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
+
+  async update(req, res) {
+    try {
+      if (!req.params.id) {
+        return res.status(400).json({
+          errors: ['Chave não enviada'],
+        });
+      }
+
+      const admin = await Administrador.findByPk(req.params.id);
+
+      if (!admin) {
+        return res.status(400).json({
+          errors: ['Usuário não localizado'],
+        });
+      }
+
+      const novosDados = await admin.update(req.body);
+
+      return res.status(200).json(novosDados);
+    } catch (e) {
+      return res.status(400).json({
+        errors: [e],
       });
     }
   }

@@ -1,17 +1,10 @@
 import Sequelize, { Model } from 'sequelize';
 import bcrypt from 'bcrypt';
 
-/*
-Neste arquivo realizamos as configurações das colunas de dados da nossa tabela.
-Sua função envolve a validação de dados inputados, assim como o manuseio da senha que será enviada ao banco de dados via Hash.
-O hook abaixo irá manipular uma variável virtual (não salva no banco de dados), que armazenará a senha temporariamente.
-*/
-
-export default class Administrador extends Model {
+export default class Personal extends Model {
   static init(sequelize) {
     super.init({
       nome: {
-        type: Sequelize.STRING,
         defaultValue: '',
         validate: {
           len: {
@@ -19,36 +12,37 @@ export default class Administrador extends Model {
             msg: 'Campo nome deve ter entre 3 a 255 caracteres',
           },
         },
+        type: Sequelize.STRING,
       },
       email: {
-        type: Sequelize.STRING,
         defaultValue: '',
         unique: {
           msg: 'Email já existe',
         },
         validate: {
           isEmail: {
-            msg: 'Campo e-mail inválido',
+            msg: 'Campo e-mail inválido!',
           },
         },
+        type: Sequelize.STRING,
       },
       password_hash: {
-        type: Sequelize.INTEGER,
         defaultValue: '',
+        type: Sequelize.STRING,
       },
       password: {
-        type: Sequelize.VIRTUAL,
         defaultValue: '',
         validate: {
           len: {
             args: [6, 50],
-            msg: 'Campo senha deve ter entre 6 a 50 caracteres',
+            msg: 'Informe uma senha entre 6 a 50 caracteres',
           },
         },
+        type: Sequelize.VIRTUAL,
       },
     }, {
       sequelize,
-      tableName: 'administrador',
+      tableName: 'personal',
     });
 
     this.addHook('beforeSave', async (usuario) => {
@@ -59,6 +53,19 @@ export default class Administrador extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.hasMany(models.PersonalFoto, { foreignKey: 'personal_id' });
+    this.hasOne(models.Enderecos, { foreignKey: 'personal_id' });
+    this.hasMany(models.PersonalAgenda, { foreignKey: 'personal_id' });
+    this.hasMany(models.AulaAgenda, { foreignKey: 'personal_id' });
+  }
+
+  // Relações com outras tabelas;
+  // Relação com a tabela de alunos -> muitos para muitos
+  // Relação com a tabela de foto -> um personal para muitas fotos;
+  // Relação com a tabela de espercialização -> muitos para muitos;
+  // Relação com a tabela de calendário_inativo -> um personal para muitas linhas de inatividade (caso linha adicionada estiver em uma data inválida, não autorizar);
 
   // Função responsável por realizar a validação do usuário.
   passwordIsValida(password) {

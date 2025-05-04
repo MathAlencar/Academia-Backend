@@ -1,5 +1,9 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _jsonwebtoken = require('jsonwebtoken'); var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
-var _Administrador = require('../Models/Administrador'); var _Administrador2 = _interopRequireDefault(_Administrador);
+Object.defineProperty(exports, '__esModule', { value: true }); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; } const _jsonwebtoken = require('jsonwebtoken');
+
+const _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+const _Administrador = require('../Models/Administrador');
+
+const _Administrador2 = _interopRequireDefault(_Administrador);
 
 class TokenControllers {
   async store(req, res) {
@@ -40,4 +44,4 @@ class TokenControllers {
   }
 }
 
-exports. default = new TokenControllers();
+exports.default = new TokenControllers();

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Administrador from '../Models/Administrador';
+import Administrador from '../../Models/Administrador';
 
 class TokenControllers {
   async store(req, res) {
@@ -27,7 +27,7 @@ class TokenControllers {
       }
 
       const { id } = user;
-      const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
+      const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET_ADMIN, {
         expiresIn: process.env.TOKEN_EXPIRATION,
       });
 
