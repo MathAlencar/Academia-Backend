@@ -9,10 +9,23 @@ import Alunos from '../Models/Alunos';
 import AlunoFoto from '../Models/FotoAlunos';
 import AulaAgenda from '../Models/AgendaAulas';
 import Enderecos from '../Models/Enderecos';
+import Conversa from '../Models/Conversa';
+import Mensagem from '../Models/Mensagem';
 
-const models = [Administrador, Personal, PersonalFoto, PersonalAgenda, Alunos, AlunoFoto, AulaAgenda, Enderecos]; // Colocando todos os models dentro de um array.
+const models = [
+  Administrador,
+  Personal,
+  PersonalFoto,
+  PersonalAgenda,
+  Alunos,
+  AlunoFoto,
+  AulaAgenda,
+  Enderecos,
+  Conversa,
+  Mensagem,
+];
 
-const connection = new Sequelize(databaseConfig); // Criando a conexão com o banco de dados.
+const connection = new Sequelize(databaseConfig);
 
-models.forEach((model) => model.init(connection)); // Criando a conexão para cada model do seu DB para realizar a conexão
-models.forEach((model) => model.associate && model.associate(connection.models)); // Criando a conexão para cada model do seu DB para realizar a conexão
+models.forEach((model) => model.init(connection));
+models.forEach((model) => model.associate && model.associate(connection.models));

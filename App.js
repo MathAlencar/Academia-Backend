@@ -17,6 +17,7 @@ import tokenAlunosRoutes from './src/routes/alunos/alunosTokenRoutes';
 import AlunoFotosRoutes from './src/routes/alunos/alunosFotosRoutes';
 import AgendaRoutes from './src/routes/AgendaGeral/agendaRoutes';
 import EnderecosRoutes from './src/routes/enderecos/enredecosRoutes';
+import ChatRoutes from './src/routes/chat/chatRoutes';
 
 class App {
   constructor() {
@@ -43,6 +44,7 @@ class App {
     this.app.use('/personal/foto/', PersonalFotoRoutes);
     this.app.use('/personal/', PersonalRoutes);
     this.app.use('/agenda/', AgendaRoutes);
+    this.app.use('/chat/', ChatRoutes);
   }
 }
 
