@@ -67,7 +67,13 @@ class PersonalControllers {
         });
       }
 
-      // if (!options.include) options.include = [];
+      if (expand && expand.includes('endereco')) {
+        options.include.push({
+          model: Enderecos,
+          attributes: ['id', 'personal_id', 'rua', 'numero', 'cidade', 'complemento', 'bairro', 'cidade', 'estado', 'cep'],
+          order: [['id', 'DESC']],
+        });
+      }
 
       const users = await Personal.findAll(options);
       return res.json(users);
@@ -127,7 +133,7 @@ class PersonalControllers {
       if (expand && expand.includes('endereco')) {
         options.include.push({
           model: Enderecos,
-          attributes: ['id', 'personal_id', 'rua', 'cidade'],
+          attributes: ['id', 'personal_id', 'rua', 'numero,', 'cidade', 'complemento', 'bairro', 'cidade', 'estado', 'cep'],
           order: [['id', 'DESC']],
         });
       }

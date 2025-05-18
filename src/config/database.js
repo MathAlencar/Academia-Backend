@@ -9,7 +9,7 @@ module.exports = {
   database: process.env.DATABASE,
   define: {
     timestamps: true,
-    underscored: true,
+    underscored: false,
     underscoredAll: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',

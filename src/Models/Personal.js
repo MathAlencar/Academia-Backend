@@ -26,6 +26,70 @@ export default class Personal extends Model {
         },
         type: Sequelize.STRING,
       },
+      descricao: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Campo descricao deve ter entre 3 a 255 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      formacao: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Campo formacao deve ter entre 3 a 255 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      experiencia: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Campo experiencia deve ter entre 3 a 255 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      cidade: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [2, 255],
+            msg: 'Campo cidade deve ter entre 3 a 255 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      profissao: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Campo profissao deve ter entre 3 a 255 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      areaAtuacao: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Campo Area de atuação deve ter entre 3 a 255 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      modeloAtendimento: {
+        type: Sequelize.ENUM('presencial', 'online'),
+        defaultValue: 'presencial', // opcional: defina o valor padrão que desejar
+      },
       password_hash: {
         defaultValue: '',
         type: Sequelize.STRING,
