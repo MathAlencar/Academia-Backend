@@ -17,6 +17,43 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      dateNascimento: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      genero: {
+        type: Sequelize.ENUM('Masculino', 'Feminino', 'Outro'),
+        defaultValue: 'Outro',
+        allowNull: false,
+      },
+      celular: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      altura: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      peso: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      condicaoMedica: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      historicoLesao: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      nivelAtividade: {
+        type: Sequelize.ENUM('Sedentário', 'Moderado', 'Ativo'),
+        allowNull: false,
+      },
+      objetivo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       password_hash: {
         type: Sequelize.STRING,
         allowNull: false,

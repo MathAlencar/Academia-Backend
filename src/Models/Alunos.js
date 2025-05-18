@@ -26,6 +26,60 @@ export default class Alunos extends Model {
         },
         type: Sequelize.STRING,
       },
+      dateNascimento: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      genero: {
+        defaultValue: 'Outro',
+        type: Sequelize.ENUM('Masculino', 'Feminino', 'Outro'),
+      },
+      celular: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      altura: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      peso: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+      condicaoMedica: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 560],
+            msg: 'Campo Condição médica deve ter entre 3 a 560 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      historicoLesao: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 560],
+            msg: 'Campo historico de lesão deve ter entre 3 a 560 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
+      nivelAtividade: {
+        type: Sequelize.ENUM('Sedentário', 'Moderado', 'Ativo'),
+        allowNull: false,
+      },
+      objetivo: {
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'Campo Condição médica deve ter entre 3 a 255 caracteres',
+          },
+        },
+        type: Sequelize.STRING,
+      },
       password_hash: {
         defaultValue: '',
         type: Sequelize.STRING,
