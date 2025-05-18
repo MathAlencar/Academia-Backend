@@ -5,6 +5,7 @@ dotenv.config();
 
 import './src/database';
 
+import cors from 'cors';
 import express from 'express';
 import AdminRoutes from './src/routes/administrador/administradorRoutes';
 import AdmintokenRoutes from './src/routes/administrador/TokenRoutes';
@@ -27,6 +28,7 @@ class App {
   }
 
   middlewares() {
+    this.app.use(cors());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(express.static(resolve(__dirname, 'upload')));
