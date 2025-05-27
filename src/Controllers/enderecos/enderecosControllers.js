@@ -61,7 +61,7 @@ class EnderecosControllers {
       return res.status(200).json(endereco);
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -87,7 +87,7 @@ class EnderecosControllers {
       return res.status(200).json(novosDados);
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -115,7 +115,7 @@ class EnderecosControllers {
       });
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }

@@ -34,7 +34,7 @@ class TokenControllers {
       return res.status(200).json({ token });
     } catch (e) {
       return res.status(400).json({
-        errors: e,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }

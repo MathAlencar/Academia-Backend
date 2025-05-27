@@ -3,12 +3,12 @@ import Conversa from '../../Models/Conversa';
 import Mensagem from '../../Models/Mensagem';
 import Alunos from '../../Models/Alunos';
 import Personal from '../../Models/Personal';
+import AlunoFoto from '../../Models/FotoAlunos';
+import PersonalFoto from '../../Models/FotoPersonal';
 
 class ChatController {
   async criarConversa(req, res) {
     try {
-      console.log('BODY recebido em criarConversa:', req.body);
-
       const {
         usuario1_id,
         tipo_usuario1,
@@ -24,6 +24,19 @@ class ChatController {
       ) {
         return res.status(400).json({
           errors: ['Todos os campos são obrigatórios.'],
+        });
+      }
+
+      const verificandoChatExist = await Conversa.findOne({
+        where: {
+          usuario1_id,
+          usuario2_id,
+        },
+      });
+
+      if (verificandoChatExist) {
+        return res.status(401).json({
+          errors: ['Já existe uma conversa iniciada entre este aluno e o Personal'],
         });
       }
 
@@ -47,27 +60,30 @@ class ChatController {
     } catch (e) {
       console.error('Erro ao criar conversa:', e);
       return res.status(400).json({
-        errors: [e.message || 'Erro inesperado ao criar conversa.'],
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
 
   async listarConversasDoUsuario(req, res) {
     try {
-      const { usuarioId, tipoUsuario } = req.params;
+      const { usuarioId, personalId } = req.params;
+
+      console.log(personalId, usuarioId);
+
+      const findAluno = await Alunos.findByPk(usuarioId);
+      const findPersonal = await Personal.findByPk(personalId);
+
+      if (!findAluno || !findPersonal){
+        return res.status(400).json({
+          errors: ['Não existe um personal ou aluno com estes IDs '],
+        });
+      }
 
       const conversas = await Conversa.findAll({
         where: {
-          [Op.or]: [
-            {
-              usuario1_id: usuarioId,
-              tipo_usuario1: tipoUsuario,
-            },
-            {
-              usuario2_id: usuarioId,
-              tipo_usuario2: tipoUsuario,
-            },
-          ],
+          usuario1_id: usuarioId,
+          usuario2_id: personalId,
         },
         include: [
           {
@@ -75,24 +91,26 @@ class ChatController {
             as: 'aluno_1',
             attributes: ['id', 'nome', 'email'],
             required: false,
-          },
-          {
-            model: Alunos,
-            as: 'aluno_2',
-            attributes: ['id', 'nome', 'email'],
-            required: false,
+            include: [
+              {
+                model: AlunoFoto,
+                attributes: ['url', 'filename'],
+                order: [['id', 'DESC']],
+              },
+            ],
           },
           {
             model: Personal,
             as: 'personal_1',
             attributes: ['id', 'nome', 'email'],
             required: false,
-          },
-          {
-            model: Personal,
-            as: 'personal_2',
-            attributes: ['id', 'nome', 'email'],
-            required: false,
+            include: [
+              {
+                model: PersonalFoto,
+                attributes: ['url', 'filename'],
+                order: [['id', 'DESC']],
+              },
+            ],
           },
         ],
         order: [['updated_at', 'DESC']],
@@ -101,7 +119,7 @@ class ChatController {
       return res.status(200).json(conversas);
     } catch (e) {
       return res.status(400).json({
-        errors: [e.message],
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -118,7 +136,7 @@ class ChatController {
       return res.status(200).json(mensagens);
     } catch (e) {
       return res.status(400).json({
-        errors: [e.message],
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -153,7 +171,7 @@ class ChatController {
       return res.status(201).json(novaMensagem);
     } catch (e) {
       return res.status(400).json({
-        errors: [e.message],
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }

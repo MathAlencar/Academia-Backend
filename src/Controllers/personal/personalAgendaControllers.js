@@ -23,7 +23,7 @@ class PersonalAgenda {
       return res.status(200).json(registerDate);
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -51,7 +51,7 @@ class PersonalAgenda {
       });
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }

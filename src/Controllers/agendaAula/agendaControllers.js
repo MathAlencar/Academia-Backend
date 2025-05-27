@@ -52,7 +52,7 @@ class AgendaControllers {
       return res.status(200).json(aula);
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -80,7 +80,7 @@ class AgendaControllers {
       });
     } catch (e) {
       return res.status(404).json({
-        errors: ['Erro ao realizar exclusão da aula'],
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -107,7 +107,7 @@ class AgendaControllers {
       return res.status(200).json(novosDados);
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }

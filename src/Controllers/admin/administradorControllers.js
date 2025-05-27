@@ -9,7 +9,7 @@ class AdministradorControllers {
       return res.json({ id, nome, email });
     } catch (e) {
       return res.status(400).json({
-        error: e.errors.map((err) => err.message),
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -36,7 +36,7 @@ class AdministradorControllers {
       return res.status(200).json(user);
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message),
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -62,7 +62,7 @@ class AdministradorControllers {
       return res.status(200).json(novosDados);
     } catch (e) {
       return res.status(400).json({
-        errors: [e],
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }

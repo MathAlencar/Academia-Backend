@@ -11,7 +11,7 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   rules: {
@@ -23,5 +23,7 @@ module.exports = {
     'no-param-reassign': 'off',
     camelcase: 'off',
     'no-use-before-define': 'off',
+    'space-before-blocks': 'off',
+    'Unexpected token': 'off',
   },
 };

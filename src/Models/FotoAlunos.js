@@ -38,5 +38,6 @@ export default class AlunoFoto extends Model {
 
   static associate(models) {
     this.belongsTo(models.Alunos, { foreignKey: 'aluno_id' });
+    this.belongsTo(models.Conversa, { foreignKey: 'usuario1_id' });
   }
 }

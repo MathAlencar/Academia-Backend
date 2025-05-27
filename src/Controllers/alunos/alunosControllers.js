@@ -70,7 +70,7 @@ class AlunoControllers {
       return res.json(users);
     } catch (e) {
       return res.status(400).json({
-        errors: e.message,
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -132,7 +132,7 @@ class AlunoControllers {
       return res.status(200).json(user);
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message),
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }
@@ -158,7 +158,7 @@ class AlunoControllers {
       return res.status(200).json(novosDados);
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message),
+        errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
   }

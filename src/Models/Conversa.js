@@ -28,27 +28,19 @@ export default class Conversa extends Model {
   }
 
   static associate(models) {
+    this.hasMany(models.AlunoFoto, { foreignKey: 'aluno_id' });
+
+    this.hasMany(models.PersonalFoto, { foreignKey: 'personal_id' });
+
     this.belongsTo(models.Alunos, {
       foreignKey: 'usuario1_id',
       as: 'aluno_1',
       constraints: false,
     });
 
-    this.belongsTo(models.Alunos, {
-      foreignKey: 'usuario2_id',
-      as: 'aluno_2',
-      constraints: false,
-    });
-
     this.belongsTo(models.Personal, {
-      foreignKey: 'usuario1_id',
+      foreignKey: 'usuario2_id',
       as: 'personal_1',
-      constraints: false,
-    });
-
-    this.belongsTo(models.Personal, {
-      foreignKey: 'usuario2_id',
-      as: 'personal_2',
       constraints: false,
     });
 
