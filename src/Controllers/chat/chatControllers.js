@@ -7,7 +7,7 @@ import AlunoFoto from '../../Models/FotoAlunos';
 import PersonalFoto from '../../Models/FotoPersonal';
 
 class ChatController {
-  async criarConversa(req, res) {
+  async store(req, res) {
     try {
       const {
         usuario1_id,
@@ -65,11 +65,9 @@ class ChatController {
     }
   }
 
-  async listarConversasDoUsuario(req, res) {
+  async show(req, res) {
     try {
       const { usuarioId, personalId } = req.params;
-
-      console.log(personalId, usuarioId);
 
       const findAluno = await Alunos.findByPk(usuarioId);
       const findPersonal = await Personal.findByPk(personalId);
@@ -94,6 +92,8 @@ class ChatController {
             include: [
               {
                 model: AlunoFoto,
+                limit: 1,
+                separate: true,
                 attributes: ['url', 'filename'],
                 order: [['id', 'DESC']],
               },
@@ -108,9 +108,17 @@ class ChatController {
               {
                 model: PersonalFoto,
                 attributes: ['url', 'filename'],
+                limit: 1,
+                separate: true,
                 order: [['id', 'DESC']],
               },
             ],
+          },
+          {
+            model: Mensagem,
+            as: 'mensagens',
+            attributes: ['id', 'tipo_remetente', 'conteudo', 'created_at'],
+            order: [['created_at', 'DESC']],
           },
         ],
         order: [['updated_at', 'DESC']],
@@ -123,6 +131,83 @@ class ChatController {
       });
     }
   }
+
+  async index(req, res){
+    try {
+      const { usuarioId, typeUser } = req.params;
+      const validate = typeUser === '1';
+
+      const user = validate ? await Alunos.findByPk(usuarioId) : await Personal.findByPk(usuarioId);
+
+      if (!user){
+        return res.status(400).json({
+          errors: ['Não existe um personal ou aluno com estes IDs'],
+        });
+      }
+
+      const optionsAluno = {
+        usuario1_id: usuarioId,
+      };
+
+      const optionsPersonal = {
+        usuario2_id: usuarioId,
+      };
+
+      const conversas = await Conversa.findAll({
+        where: validate ? optionsAluno : optionsPersonal,
+        include: [
+
+          {
+            model: Alunos,
+            as: 'aluno_1',
+            attributes: ['id', 'nome', 'email'],
+            required: false,
+            include: [
+              {
+                model: AlunoFoto,
+                attributes: ['url', 'filename'],
+                limit: 1, // Irá trazer somente o último registro do banco dessa tabela de acordo com a data.
+                order: [['id', 'DESC']],
+                separate: true, // Irá trazer somente o último registro do banco dessa tabela de acordo com a data.
+              },
+            ],
+          },
+          {
+            model: Personal,
+            as: 'personal_1',
+            attributes: ['id', 'nome', 'email'],
+            required: false,
+            include: [
+              {
+                model: PersonalFoto,
+                attributes: ['url', 'filename'],
+                limit: 1,
+                order: [['id', 'DESC']],
+                separate: true,
+              },
+            ],
+          },
+          {
+            model: Mensagem,
+            as: 'mensagens',
+            attributes: ['id', 'tipo_remetente', 'conteudo', 'created_at'],
+            limit: 1,
+            order: [['created_at', 'DESC']],
+            separate: true,
+          },
+        ],
+        order: [['updated_at', 'DESC']],
+      });
+
+      return res.status(200).json(conversas);
+    } catch (e) {
+      return res.status(400).json({
+        errors: e.errors?.map((err) => err.message) || [e.message],
+      });
+    }
+  }
+
+  // Separar em duas APi's distinstas;
 
   async listarMensagens(req, res) {
     try {
