@@ -11,6 +11,7 @@ import AulaAgenda from '../Models/AgendaAulas';
 import Enderecos from '../Models/Enderecos';
 import Conversa from '../Models/Conversa';
 import Mensagem from '../Models/Mensagem';
+import PlanosPersonal from '../Models/PlanosPersonal.js';
 
 const models = [
   Administrador,
@@ -23,6 +24,7 @@ const models = [
   Enderecos,
   Conversa,
   Mensagem,
+  PlanosPersonal,
 ];
 
 const connection = new Sequelize(databaseConfig);

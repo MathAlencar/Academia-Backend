@@ -75,9 +75,13 @@ export default class Alunos extends Model {
         validate: {
           len: {
             args: [3, 255],
-            msg: 'Campo Condição médica deve ter entre 3 a 255 caracteres',
+            msg: 'Campo Objetivo deve ter entre 3 a 255 caracteres',
           },
         },
+        type: Sequelize.STRING,
+      },
+      cliente_id: {
+        defaultValue: null,
         type: Sequelize.STRING,
       },
       password_hash: {
