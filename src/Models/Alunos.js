@@ -14,6 +14,20 @@ export default class Alunos extends Model {
         },
         type: Sequelize.STRING,
       },
+      cpf_cnpj: {
+        field: 'cpf_cnpj',
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: {
+          msg: 'CPF/CNPJ já cadastrado no sistema',
+        },
+        validate: {
+          len: {
+            args: [11, 18],
+            msg: 'Campo CPF/CNPJ deve ter entre 11 e 18 caracteres',
+          },
+        },
+      },
       email: {
         defaultValue: '',
         unique: {
@@ -37,6 +51,9 @@ export default class Alunos extends Model {
       celular: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: {
+          msg: 'Este número de telefone já está cadastrado no sistema',
+        },
       },
       altura: {
         type: Sequelize.DECIMAL,
