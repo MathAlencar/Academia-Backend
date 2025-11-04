@@ -4,6 +4,5 @@ import clienteControllers from '../../Controllers/pagamento/clienteControllers.j
 const router = new Router();
 
 router.post('/', clienteControllers.store);
-router.get('/:cpfCnpj', clienteControllers.show);
 
 export default router;
