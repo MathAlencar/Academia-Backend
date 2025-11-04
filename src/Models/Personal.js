@@ -90,10 +90,6 @@ export default class Personal extends Model {
         type: Sequelize.ENUM('presencial', 'online'),
         defaultValue: 'presencial', // opcional: defina o valor padrão que desejar
       },
-      carteira_id: {
-        defaultValue: null,
-        type: Sequelize.STRING,
-      },
       password_hash: {
         defaultValue: '',
         type: Sequelize.STRING,

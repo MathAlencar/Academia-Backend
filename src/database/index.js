@@ -11,6 +11,7 @@ import AulaAgenda from '../Models/AgendaAulas';
 import Enderecos from '../Models/Enderecos';
 import Conversa from '../Models/Conversa';
 import Mensagem from '../Models/Mensagem';
+import Subconta from '../Models/Subconta';
 import PlanosPersonal from '../Models/PlanosPersonal.js';
 
 const models = [
@@ -24,6 +25,7 @@ const models = [
   Enderecos,
   Conversa,
   Mensagem,
+  Subconta,
   PlanosPersonal,
 ];
 
