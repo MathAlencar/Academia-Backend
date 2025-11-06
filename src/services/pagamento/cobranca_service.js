@@ -14,11 +14,7 @@ const axiosInstance = axios.create({
   }
 });
 
-/**
- * Cria uma cobrança no Asaas
- * @param {object} dadosCobranca - Dados da cobrança conforme documentação Asaas
- * @returns {object} Resposta da API com dados da cobrança criada
- */
+// Cria uma cobrança no Asaas
 async function criarCobranca(aluno, formas_pagamento, valor, splitConfig = null, dadosCartao = null) {
   try {
     const body = gerarCobranca(aluno, formas_pagamento, valor, splitConfig, dadosCartao);
@@ -36,33 +32,41 @@ function gerarDataVencimentoCobranca() {
     return dataVencimento;
 }
 
-function gerarCobranca(aluno, formas_pagamento, valor, splitConfig = null, dadosCartao = null) {
+function gerarCobranca(aluno, formaPagamento, valor, splitConfig = null) {
   const dataVencimento = gerarDataVencimentoCobranca();
+
+  // Normaliza o formato
+  const forma = formaPagamento?.toUpperCase();
 
   let cobrancaBase;
 
-  switch (formas_pagamento) {
-    case FormasPagamento.PIX:
+  switch (forma) {
+    case 'PIX':
       cobrancaBase = gerarObjetoCobrancaPix(aluno, valor, dataVencimento);
       break;
-    case FormasPagamento.BOLETO:
+
+    case 'BOLETO':
       cobrancaBase = gerarObjetoCobrancaBoleto(aluno, valor, dataVencimento);
       break;
-    case FormasPagamento.CREDIT_CARD:
-      cobrancaBase = gerarObjetoCobrancaCartaoCredito(aluno, valor, dataVencimento, dadosCartao);
+
+    case 'CARTAO DE CREDITO':
+      cobrancaBase = gerarObjetoCobrancaCartaoCredito(aluno, valor, dataVencimento);
       break;
+
     default:
-      throw new Error('Forma de cobrança inválida');
+      throw new Error(
+        'Forma de cobrança inválida. Use PIX, BOLETO ou CARTAO DE CREDITO.'
+      );
   }
 
-  // Adiciona configuração de split se fornecida
+  // Adiciona split se fornecido
   if (splitConfig) {
     cobrancaBase.split = splitConfig;
   }
 
-  // Retorna o objeto de cobrança completo
   return cobrancaBase;
 }
+
 
 function gerarObjetoCobrancaPix(aluno, valor, dataVencimento) {
   return {
@@ -82,32 +86,14 @@ function gerarObjetoCobrancaBoleto(aluno, valor, dataVencimento) {
   };
 }
 
-function gerarObjetoCobrancaCartaoCredito(aluno, valor, dataVencimento, dadosCartao) {
-  if (!dadosCartao?.creditCard || !dadosCartao?.creditCardHolderInfo) {
-    throw new Error('Dados do cartão de crédito são obrigatórios para cobranças com CREDIT_CARD.');
-  }
-
+function gerarObjetoCobrancaCartaoCredito(aluno, valor, dataVencimento) {
   return {
     customer: aluno.cliente_id,
     billingType: FormasPagamento.CREDIT_CARD,
     value: valor,
     dueDate: dataVencimento.toISOString().split('T')[0],
-    creditCard: {
-        holderName: dadosCartao.creditCard.holderName,
-        number: dadosCartao.creditCard.number,
-        expiryMonth: dadosCartao.creditCard.expiryMonth,
-        expiryYear: dadosCartao.creditCard.expiryYear,
-        ccv: dadosCartao.creditCard.ccv
-    },
-    creditCardHolderInfo: {
-        name: dadosCartao.creditCardHolderInfo.name,
-        email: dadosCartao.creditCardHolderInfo.email,
-        cpfCnpj: dadosCartao.creditCardHolderInfo.cpfCnpj,
-        postalCode: dadosCartao.creditCardHolderInfo.postalCode,
-        addressNumber: dadosCartao.creditCardHolderInfo.addressNumber,
-        mobilePhone: dadosCartao.creditCardHolderInfo.mobilePhone
-    }
- }
+    description: 'Cobrança via cartão de crédito (pagamento será feito pelo link)',
+  };
 }
 
 async function consultarCobranca(id) {
@@ -124,42 +110,3 @@ export default {
   criarCobranca,
   consultarCobranca
 };
-
-
-// /**
-//  * Exemplo de dados para cobrança em cartão de crédito
-//  */
-// const cobrancaCartao = {
-//   customer: 'ID_DO_CLIENTE',
-//   billingType: 'CREDIT_CARD', // Para cartão de crédito
-//   value: 150.00,
-//   dueDate: '2025-11-30',
-//   creditCard: {
-//     holderName: 'Nome do Titular',
-//     number: '4111111111111111',
-//     expiryMonth: '12',
-//     expiryYear: '2026',
-//     ccv: '123',
-//     cpf: '12345678900' // CPF do titular do cartão
-//   }
-// };
-
-// /**
-//  * Exemplo de dados para cobrança com boleto
-//  */
-// const cobrancaBoleto = {
-//   customer: 'ID_DO_CLIENTE',
-//   billingType: 'BOLETO', // Para boleto bancário
-//   value: 200.00,
-//   dueDate: '2025-11-30'
-// };
-
-// /**
-//  * Exemplo de dados para cobrança com PIX
-//  */
-// const cobrancaPix = {
-//   customer: 'ID_DO_CLIENTE',
-//   billingType: 'PIX', // Para PIX
-//   value: 100.00,
-//   dueDate: '2025-11-30'
-// };

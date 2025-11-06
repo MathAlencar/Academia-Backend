@@ -1,54 +1,68 @@
 import CobrancaService from '../../services/pagamento/cobranca_service.js';
-import Personal from '../../Models/Personal.js';
+import Subconta from '../../Models/Subconta.js';
 import Aluno from '../../Models/Alunos.js';
 import Plano from '../../Models/PlanosPersonal.js';
 
 class CobrancaControllers {
+
   // Cria uma cobrança no Asaas
-  async store(req, res) {
+async store(req, res) {
   try {
-    const { alunoId, planoId, forma, dadosCartao } = req.body;
+    const { alunoId, planoId, dadosCartao } = req.body;
+    let { forma } = req.body;
+
+    // Normaliza a forma de pagamento (case-insensitive)
+    forma = typeof forma === 'string' ? forma.toUpperCase() : null;
+
+    if (!forma) {
+      return res.status(400).json({
+        errors: ['Forma de pagamento não informada.'],
+      });
+    }
 
     // Buscar aluno
     const aluno = await Aluno.findByPk(alunoId);
     if (!aluno) {
       return res.status(404).json({
-        errors: ['Aluno não encontrado'],
+        errors: ['Aluno não encontrado.'],
       });
     }
 
     if (!aluno.cliente_id) {
       return res.status(400).json({
-        errors: ['Aluno não possui cliente_id configurado no Asaas'],
+        errors: ['Aluno não possui cliente_id configurado no Asaas.'],
       });
     }
 
     // Buscar plano
     const plano = await Plano.findByPk(planoId);
-
     if (!plano) {
       return res.status(404).json({
-        errors: ['Plano não encontrado'],
+        errors: ['Plano não encontrado.'],
       });
     }
 
-    const personal = await Personal.findByPk(plano.personal_id);
-    if (!personal) {
+    // Buscar subconta do personal
+    const subconta = await Subconta.findOne({
+      where: { personal_id: plano.personal_id },
+    });
+
+    if (!subconta) {
       return res.status(404).json({
-        errors: ['Personal vinculado ao plano não encontrado'],
+        errors: ['Subconta do personal não encontrada.'],
       });
     }
 
-    if (!personal.carteira_id) {
+    if (!subconta.carteira_id) {
       return res.status(400).json({
-        errors: ['Personal não possui carteira_id configurado'],
+        errors: ['Personal não possui carteira_id configurado.'],
       });
     }
 
     // Montar split automático
     const splitConfig = [
       {
-        walletId: personal.carteira_id,
+        walletId: subconta.carteira_id,
         percentualValue: 95.0,
       },
     ];
