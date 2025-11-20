@@ -29,7 +29,7 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
         validate: {
           len: {
             args: [3, 255],
-            msg: 'Campo grupo muscular deve ter entre 20 a 5000 caracteres',
+            msg: 'Campo grupo muscular deve ter entre 3 a 255 caracteres',
           },
         },
       },
@@ -38,8 +38,8 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
         defaultValue: '',
         validate: {
           len: {
-            args: [20, 5000],
-            msg: 'Campo nome descrição ter entre 20 a 5000 caracteres',
+            args: [10, 5000],
+            msg: 'Campo nome descrição ter entre 10 a 5000 caracteres',
           },
         },
       },
@@ -61,5 +61,5 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
       as: 'sessoes',
     });
   }
-  
+
 } exports.default = ExercicioPersonal;

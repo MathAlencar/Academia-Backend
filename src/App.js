@@ -19,11 +19,17 @@ import AlunoFotosRoutes from './routes/alunos/alunosFotosRoutes';
 import AgendaRoutes from './routes/AgendaGeral/agendaRoutes';
 import EnderecosRoutes from './routes/enderecos/enredecosRoutes';
 import ChatRoutes from './routes/chat/chatRoutes';
+
+// Rotas de treino
 import ExerciciosPersonal from './routes/ExerciciosPersonal/ExerciciosPersonal';
 import PlanoTreinoRoutes from './routes/PlanoTreino/PlanoTreinoRoutes';
 import SessaoTreino from './routes/SessaoTreino/sessaoTreinoRoutes';
 import itemExercicioRoutes from './routes/itemExercicio/itemExercicioRoutes';
 import videoExercicioRoutes from './routes/ExerciciosPersonal/videoExercicioRoutes';
+
+// Rotas de pagamento
+import ClienteRoutes from './routes/pagamento/clienteRoutes';
+import CobrancaRoutes from './routes/pagamento/cobrancaRoutes';
 
 class App {
   constructor() {
@@ -36,7 +42,9 @@ class App {
     this.app.use(cors());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
-    this.app.use(express.static(resolve(__dirname, 'upload')));
+    // this.app.use(express.static(resolve(__dirname, 'upload')));
+    this.app.use(express.static(resolve(__dirname, '..', 'upload', 'videos')));
+    this.app.use(express.static(resolve(__dirname, '..', 'upload', 'images')));
   }
 
   routes() {
@@ -52,11 +60,17 @@ class App {
     this.app.use('/personal/', PersonalRoutes);
     this.app.use('/agenda/', AgendaRoutes);
     this.app.use('/chat/', ChatRoutes);
+
+    // Treino
     this.app.use('/exercicios/', ExerciciosPersonal);
-    this.app.use('/exercicios/video/', videoExercicioRoutes)
+    this.app.use('/exercicios/video/', videoExercicioRoutes);
     this.app.use('/plano/', PlanoTreinoRoutes);
     this.app.use('/sessao/treino/', SessaoTreino);
     this.app.use('/item/exercicio/', itemExercicioRoutes);
+
+    // Pagamento
+    this.app.use('/cliente', ClienteRoutes);
+    this.app.use('/cobranca', CobrancaRoutes);
   }
 }
 

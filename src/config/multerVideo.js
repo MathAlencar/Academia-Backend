@@ -22,7 +22,7 @@ export default {
 
     return cb(null, true);
   },
-  
+
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, resolve(__dirname, '..', '..', 'upload', 'videos'));
@@ -32,5 +32,5 @@ export default {
     },
 
   }), // irá salvar dentro de alguma pasta lá no servidor.
-  
+
 };

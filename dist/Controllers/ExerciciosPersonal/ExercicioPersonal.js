@@ -34,6 +34,8 @@ class ExercicioControllers {
   async index(req,res){
     try {
 
+      console.log('oi')
+
       if(!req.userID){
         return res.status(401).json({
           message: ['Token não enviado!']
@@ -97,7 +99,7 @@ class ExercicioControllers {
           errors: ['Exercicio não encontrado'],
         });
       }
-      
+
       const newExercicio = await exercicio.update(req.body);
 
       return res.status(200).json(newExercicio);
@@ -135,7 +137,7 @@ class ExercicioControllers {
           errors: ['Exercicio não encontrado'],
         });
       }
-      
+
       await exercicio.destroy();
 
       return res.status(200).json({

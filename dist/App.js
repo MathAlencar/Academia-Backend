@@ -19,11 +19,17 @@ var _alunosFotosRoutes = require('./routes/alunos/alunosFotosRoutes'); var _alun
 var _agendaRoutes = require('./routes/AgendaGeral/agendaRoutes'); var _agendaRoutes2 = _interopRequireDefault(_agendaRoutes);
 var _enredecosRoutes = require('./routes/enderecos/enredecosRoutes'); var _enredecosRoutes2 = _interopRequireDefault(_enredecosRoutes);
 var _chatRoutes = require('./routes/chat/chatRoutes'); var _chatRoutes2 = _interopRequireDefault(_chatRoutes);
+
+// Rotas de treino
 var _ExerciciosPersonal = require('./routes/ExerciciosPersonal/ExerciciosPersonal'); var _ExerciciosPersonal2 = _interopRequireDefault(_ExerciciosPersonal);
 var _PlanoTreinoRoutes = require('./routes/PlanoTreino/PlanoTreinoRoutes'); var _PlanoTreinoRoutes2 = _interopRequireDefault(_PlanoTreinoRoutes);
 var _sessaoTreinoRoutes = require('./routes/SessaoTreino/sessaoTreinoRoutes'); var _sessaoTreinoRoutes2 = _interopRequireDefault(_sessaoTreinoRoutes);
 var _itemExercicioRoutes = require('./routes/itemExercicio/itemExercicioRoutes'); var _itemExercicioRoutes2 = _interopRequireDefault(_itemExercicioRoutes);
 var _videoExercicioRoutes = require('./routes/ExerciciosPersonal/videoExercicioRoutes'); var _videoExercicioRoutes2 = _interopRequireDefault(_videoExercicioRoutes);
+
+// Rotas de pagamento
+var _clienteRoutes = require('./routes/pagamento/clienteRoutes'); var _clienteRoutes2 = _interopRequireDefault(_clienteRoutes);
+var _cobrancaRoutes = require('./routes/pagamento/cobrancaRoutes'); var _cobrancaRoutes2 = _interopRequireDefault(_cobrancaRoutes);
 
 class App {
   constructor() {
@@ -36,7 +42,9 @@ class App {
     this.app.use(_cors2.default.call(void 0, ));
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
-    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, 'upload')));
+    // this.app.use(express.static(resolve(__dirname, 'upload')));
+    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'upload', 'videos')));
+    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'upload', 'images')));
   }
 
   routes() {
@@ -52,11 +60,17 @@ class App {
     this.app.use('/personal/', _personalRouter2.default);
     this.app.use('/agenda/', _agendaRoutes2.default);
     this.app.use('/chat/', _chatRoutes2.default);
+
+    // Treino
     this.app.use('/exercicios/', _ExerciciosPersonal2.default);
-    this.app.use('/exercicios/video/', _videoExercicioRoutes2.default)
+    this.app.use('/exercicios/video/', _videoExercicioRoutes2.default);
     this.app.use('/plano/', _PlanoTreinoRoutes2.default);
     this.app.use('/sessao/treino/', _sessaoTreinoRoutes2.default);
     this.app.use('/item/exercicio/', _itemExercicioRoutes2.default);
+
+    // Pagamento
+    this.app.use('/cliente', _clienteRoutes2.default);
+    this.app.use('/cobranca', _cobrancaRoutes2.default);
   }
 }
 

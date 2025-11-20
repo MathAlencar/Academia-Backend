@@ -14,6 +14,20 @@ var _bcrypt = require('bcrypt'); var _bcrypt2 = _interopRequireDefault(_bcrypt);
         },
         type: _sequelize2.default.STRING,
       },
+      cpf_cnpj: {
+        field: 'cpf_cnpj',
+        type: _sequelize2.default.STRING,
+        allowNull: true,
+        unique: {
+          msg: 'CPF/CNPJ já cadastrado no sistema',
+        },
+        validate: {
+          len: {
+            args: [11, 18],
+            msg: 'Campo CPF/CNPJ deve ter entre 11 e 18 caracteres',
+          },
+        },
+      },
       email: {
         defaultValue: '',
         unique: {
@@ -37,6 +51,9 @@ var _bcrypt = require('bcrypt'); var _bcrypt2 = _interopRequireDefault(_bcrypt);
       celular: {
         type: _sequelize2.default.STRING,
         allowNull: false,
+        unique: {
+          msg: 'Este número de telefone já está cadastrado no sistema',
+        },
       },
       altura: {
         type: _sequelize2.default.DECIMAL,
@@ -75,9 +92,13 @@ var _bcrypt = require('bcrypt'); var _bcrypt2 = _interopRequireDefault(_bcrypt);
         validate: {
           len: {
             args: [3, 255],
-            msg: 'Campo Condição médica deve ter entre 3 a 255 caracteres',
+            msg: 'Campo Objetivo deve ter entre 3 a 255 caracteres',
           },
         },
+        type: _sequelize2.default.STRING,
+      },
+      cliente_id: {
+        defaultValue: null,
         type: _sequelize2.default.STRING,
       },
       password_hash: {

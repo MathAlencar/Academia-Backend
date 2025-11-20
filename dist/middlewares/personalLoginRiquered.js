@@ -11,6 +11,7 @@ exports. default = async (req, res, next) => {
   }
 
   const [, token] = authorization.split(' ');
+  console.log(token);
 
   try {
     const dados = _jsonwebtoken2.default.verify(token, process.env.TOKEN_SECRET_USER);

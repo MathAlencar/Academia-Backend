@@ -9,7 +9,6 @@ routes.get('/', personalLoginRiquered, ExerciciosPersonal.index);
 routes.put('/:id', personalLoginRiquered, ExerciciosPersonal.update);
 routes.delete('/:id', personalLoginRiquered, ExerciciosPersonal.delete);
 
-
 // routes.delete('/:id', ExerciciosPersonal.delete);
 // routes.put('/:id', ExerciciosPersonal.update);
 

@@ -22,7 +22,7 @@ exports. default = {
 
     return cb(null, true);
   },
-  
+
   storage: _multer2.default.diskStorage({
     destination: (req, file, cb) => {
       cb(null, _path.resolve.call(void 0, __dirname, '..', '..', 'upload', 'videos'));
@@ -32,5 +32,5 @@ exports. default = {
     },
 
   }), // irá salvar dentro de alguma pasta lá no servidor.
-  
+
 };

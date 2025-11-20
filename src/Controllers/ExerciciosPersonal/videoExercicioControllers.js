@@ -16,8 +16,6 @@ class videoControllers {
       const { originalname, filename } = req.file;
       const { exercicio_personal_id } = req.body;
 
-      console.log(exercicio_personal_id)
-
       const exercicioPersonal = await ExercicioPersonal.findByPk(exercicio_personal_id);
 
       console.log(exercicioPersonal)
