@@ -42,9 +42,9 @@ class App {
     this.app.use(_cors2.default.call(void 0, ));
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
-    // this.app.use(express.static(resolve(__dirname, 'upload')));
-    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'upload', 'videos')));
-    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'upload', 'images')));
+    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, 'upload')));
+    // this.app.use(express.static(resolve(__dirname, '..', 'upload', 'videos')));
+    // this.app.use(express.static(resolve(__dirname, '..', 'upload', 'images')));
   }
 
   routes() {
