@@ -42,9 +42,21 @@ class App {
     this.app.use(_cors2.default.call(void 0, ));
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
-    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, 'upload')));
+    // this.app.use(express.static(resolve(__dirname, 'upload')));
     // this.app.use(express.static(resolve(__dirname, '..', 'upload', 'videos')));
     // this.app.use(express.static(resolve(__dirname, '..', 'upload', 'images')));
+
+    // Vídeos em /videos/arquivo.mp4
+    this.app.use(
+      '/videos',
+      _express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'upload', 'videos')),
+    );
+
+    // Imagens em /images/arquivo.jpg
+    this.app.use(
+      '/images',
+      _express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'upload', 'images')),
+    );
   }
 
   routes() {
