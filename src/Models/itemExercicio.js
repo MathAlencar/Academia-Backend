@@ -28,12 +28,6 @@ export default class itemExercicio extends Model {
       repeticoes: {
         type: Sequelize.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 312],
-            msg: 'Campo nome deve ter entre 3 a 312 caracteres',
-          },
-        },
       },
       tempo_descanso_segundos: {
         type: Sequelize.INTEGER,
@@ -42,12 +36,6 @@ export default class itemExercicio extends Model {
       observacoes: {
         type: Sequelize.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 512],
-            msg: 'Campo nome deve ter entre 3 a 512 caracteres',
-          },
-        },
       },
     }, {
       sequelize,

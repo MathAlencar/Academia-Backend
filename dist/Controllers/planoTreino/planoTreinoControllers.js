@@ -24,6 +24,20 @@ class PlanoTreinoControllers {
         observacoes_gerais,
       }
 
+      // Realizando a busca nos planos do aluno.
+      const validacao = await _planoTreino2.default.findAll({
+        where: {
+          aluno_id: req.params.id,
+          status: 'Ativo'
+        },
+      })
+
+      if(validacao) {
+        return res.status(404).json({
+          errors: ['Já existe um plano ativo vinculado a este aluno.']
+        });
+      }
+
       const newPlanTraining = await _planoTreino2.default.create(body);
 
       return res.status(200).json(newPlanTraining);
@@ -34,6 +48,7 @@ class PlanoTreinoControllers {
     }
   }
 
+  // Caso tiver no body, a chave "Status" ele irá verificar se existe algum plano já ativo, caso contrário será possível realizar o update.
   async update(req, res) {
     try {
 
@@ -62,12 +77,30 @@ class PlanoTreinoControllers {
         });
       }
 
+      if(_optionalChain([req, 'access', _4 => _4.body, 'optionalAccess', _5 => _5.status]) == 'Ativo'){
+        const aluno_id_validate = planoTreino.dataValues.aluno_id;
+
+        // Realizando a busca nos planos do aluno.
+        const validacao = await _planoTreino2.default.findAll({
+          where: {
+            aluno_id: aluno_id_validate,
+            status: 'Ativo'
+          },
+        })
+
+        if(validacao) {
+          return res.status(404).json({
+            errors: ['Já existe um plano ativo vinculado a este aluno.']
+          });
+        }
+      }
+
       const newPlanoTreino = await planoTreino.update(req.body);
 
       return res.status(200).json(newPlanoTreino);
     } catch (e) {
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _4 => _4.errors, 'optionalAccess', _5 => _5.map, 'call', _6 => _6((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _6 => _6.errors, 'optionalAccess', _7 => _7.map, 'call', _8 => _8((err) => err.message)]) || [e.message],
       });
     }
   }
@@ -107,7 +140,7 @@ class PlanoTreinoControllers {
       });
     } catch (e) {
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _7 => _7.errors, 'optionalAccess', _8 => _8.map, 'call', _9 => _9((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _9 => _9.errors, 'optionalAccess', _10 => _10.map, 'call', _11 => _11((err) => err.message)]) || [e.message],
       });
     }
   }
@@ -215,7 +248,7 @@ class PlanoTreinoControllers {
 
     } catch (e) {
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _10 => _10.errors, 'optionalAccess', _11 => _11.map, 'call', _12 => _12((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _12 => _12.errors, 'optionalAccess', _13 => _13.map, 'call', _14 => _14((err) => err.message)]) || [e.message],
       });
     }
 
@@ -316,7 +349,7 @@ class PlanoTreinoControllers {
 
     } catch (e) {
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _13 => _13.errors, 'optionalAccess', _14 => _14.map, 'call', _15 => _15((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _15 => _15.errors, 'optionalAccess', _16 => _16.map, 'call', _17 => _17((err) => err.message)]) || [e.message],
       });
     }
 

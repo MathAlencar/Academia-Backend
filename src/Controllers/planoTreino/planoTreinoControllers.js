@@ -24,6 +24,20 @@ class PlanoTreinoControllers {
         observacoes_gerais,
       }
 
+      // Realizando a busca nos planos do aluno.
+      const validacao = await PlanoTreino.findAll({
+        where: {
+          aluno_id: req.params.id,
+          status: 'Ativo'
+        },
+      })
+
+      if(validacao) {
+        return res.status(404).json({
+          errors: ['Já existe um plano ativo vinculado a este aluno.']
+        });
+      }
+
       const newPlanTraining = await PlanoTreino.create(body);
 
       return res.status(200).json(newPlanTraining);
@@ -34,6 +48,7 @@ class PlanoTreinoControllers {
     }
   }
 
+  // Caso tiver no body, a chave "Status" ele irá verificar se existe algum plano já ativo, caso contrário será possível realizar o update.
   async update(req, res) {
     try {
 
@@ -60,6 +75,24 @@ class PlanoTreinoControllers {
         return res.status(400).json({
           errors: ['plano Treino não encontrado'],
         });
+      }
+
+      if(req.body?.status == 'Ativo'){
+        const aluno_id_validate = planoTreino.dataValues.aluno_id;
+
+        // Realizando a busca nos planos do aluno.
+        const validacao = await PlanoTreino.findAll({
+          where: {
+            aluno_id: aluno_id_validate,
+            status: 'Ativo'
+          },
+        })
+
+        if(validacao) {
+          return res.status(404).json({
+            errors: ['Já existe um plano ativo vinculado a este aluno.']
+          });
+        }
       }
 
       const newPlanoTreino = await planoTreino.update(req.body);

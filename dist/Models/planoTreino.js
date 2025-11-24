@@ -28,12 +28,6 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
       nome: {
         type: _sequelize2.default.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 255],
-            msg: 'Campo nome deve ter entre 3 a 255 caracteres',
-          },
-        },
       },
       status: {
         type: _sequelize2.default.ENUM('Ativo', 'Concluido', 'Futuro'),
@@ -49,12 +43,6 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
       observacoes_gerais: {
         type: _sequelize2.default.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [20, 5000],
-            msg: 'Campo nome descrição ter entre 20 a 5000 caracteres',
-          },
-        },
       },
     }, {
       sequelize,

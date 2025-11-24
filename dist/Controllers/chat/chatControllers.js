@@ -5,6 +5,9 @@ var _Alunos = require('../../Models/Alunos'); var _Alunos2 = _interopRequireDefa
 var _Personal = require('../../Models/Personal'); var _Personal2 = _interopRequireDefault(_Personal);
 var _FotoAlunos = require('../../Models/FotoAlunos'); var _FotoAlunos2 = _interopRequireDefault(_FotoAlunos);
 var _FotoPersonal = require('../../Models/FotoPersonal'); var _FotoPersonal2 = _interopRequireDefault(_FotoPersonal);
+// IMPORTA o getIO no topo do controller
+// 👇 ajusta o caminho conforme onde está seu websocket.js
+var _websocket = require('../../WebSocket/websocket');
 
 class ChatController {
   async store(req, res) {
@@ -55,6 +58,14 @@ class ChatController {
         usuario2_id,
         tipo_usuario2,
       });
+
+      // (Opcional) Se quiser já avisar o front que uma nova conversa foi criada:
+      // try {
+      //   const io = getIO();
+      //   io.emit('nova_conversa', conversa); // ou io.to(user).emit(...)
+      // } catch (err) {
+      //   console.error('Erro ao emitir nova_conversa no websocket:', err);
+      // }
 
       return res.status(201).json(conversa);
     } catch (e) {
@@ -156,7 +167,6 @@ class ChatController {
       const conversas = await _Conversa2.default.findAll({
         where: validate ? optionsAluno : optionsPersonal,
         include: [
-
           {
             model: _Alunos2.default,
             as: 'aluno_1',
@@ -166,9 +176,9 @@ class ChatController {
               {
                 model: _FotoAlunos2.default,
                 attributes: ['url', 'filename'],
-                limit: 1, // Irá trazer somente o último registro do banco dessa tabela de acordo com a data.
+                limit: 1,
                 order: [['id', 'DESC']],
-                separate: true, // Irá trazer somente o último registro do banco dessa tabela de acordo com a data.
+                separate: true,
               },
             ],
           },
@@ -207,8 +217,6 @@ class ChatController {
     }
   }
 
-  // Separar em duas APi's distinstas;
-
   async listarMensagens(req, res) {
     try {
       const { conversaId } = req.params;
@@ -246,12 +254,37 @@ class ChatController {
         });
       }
 
+      // Cria a mensagem no banco
       const novaMensagem = await _Mensagem2.default.create({
         conversa_id,
         remetente_id,
         tipo_remetente,
         conteudo,
       });
+
+      // Atualiza o updated_at da conversa (pra lista ordenar certinho)
+      await _Conversa2.default.update(
+        { updated_at: new Date() },
+        { where: { id: conversa_id } },
+      );
+
+      // Notifica em tempo real quem estiver na sala dessa conversa
+      try {
+        const io = _websocket.getIO.call(void 0, );
+        const roomName = `conversa_${conversa_id}`;
+
+        io.to(roomName).emit('nova_mensagem', {
+          id: novaMensagem.id,
+          conversa_id,
+          remetente_id,
+          tipo_remetente,
+          conteudo,
+          created_at: novaMensagem.created_at,
+        });
+      } catch (socketErr) {
+        console.error('Erro ao emitir nova_mensagem no websocket:', socketErr);
+        // não quebra a API por causa do socket
+      }
 
       return res.status(201).json(novaMensagem);
     } catch (e) {

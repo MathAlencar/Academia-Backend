@@ -16,22 +16,10 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
       identificador: {
         type: _sequelize2.default.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 255],
-            msg: 'Campo nome deve ter entre 3 a 255 caracteres',
-          },
-        },
       },
       titulo: {
         type: _sequelize2.default.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 255],
-            msg: 'Campo nome deve ter entre 3 a 255 caracteres',
-          },
-        },
       },
       ordem: {
         type: _sequelize2.default.INTEGER,

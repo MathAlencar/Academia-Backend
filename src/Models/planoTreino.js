@@ -28,12 +28,6 @@ export default class planoTreino extends Model {
       nome: {
         type: Sequelize.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 255],
-            msg: 'Campo nome deve ter entre 3 a 255 caracteres',
-          },
-        },
       },
       status: {
         type: Sequelize.ENUM('Ativo', 'Concluido', 'Futuro'),
@@ -49,12 +43,6 @@ export default class planoTreino extends Model {
       observacoes_gerais: {
         type: Sequelize.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [20, 5000],
-            msg: 'Campo nome descrição ter entre 20 a 5000 caracteres',
-          },
-        },
       },
     }, {
       sequelize,

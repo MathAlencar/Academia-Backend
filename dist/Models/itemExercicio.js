@@ -28,12 +28,6 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
       repeticoes: {
         type: _sequelize2.default.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 312],
-            msg: 'Campo nome deve ter entre 3 a 312 caracteres',
-          },
-        },
       },
       tempo_descanso_segundos: {
         type: _sequelize2.default.INTEGER,
@@ -42,12 +36,6 @@ O hook abaixo irá manipular uma variável virtual (não salva no banco de dados
       observacoes: {
         type: _sequelize2.default.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 512],
-            msg: 'Campo nome deve ter entre 3 a 512 caracteres',
-          },
-        },
       },
     }, {
       sequelize,

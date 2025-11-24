@@ -16,22 +16,10 @@ export default class SessaoTreino extends Model {
       identificador: {
         type: Sequelize.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 255],
-            msg: 'Campo nome deve ter entre 3 a 255 caracteres',
-          },
-        },
       },
       titulo: {
         type: Sequelize.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [3, 255],
-            msg: 'Campo nome deve ter entre 3 a 255 caracteres',
-          },
-        },
       },
       ordem: {
         type: Sequelize.INTEGER,

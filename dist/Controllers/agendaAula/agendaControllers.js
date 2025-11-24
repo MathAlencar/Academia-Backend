@@ -23,13 +23,6 @@ class AgendaControllers {
         attributes: ['title', 'date_init', 'date_end'],
       });
 
-      if (restricao) {
-        return res.status(404).json({
-          errors: ['Professor indisponível neste horário'],
-          agenda: conflito,
-        });
-      }
-
       const conflito = await _AgendaAulas2.default.findOne({
         where: {
           personal_id,
@@ -40,6 +33,13 @@ class AgendaControllers {
         },
         attributes: ['id', 'status', 'date_init', 'date_end', 'endereco'],
       });
+
+      if (restricao) {
+        return res.status(404).json({
+          errors: ['Professor indisponível neste horário'],
+          agenda: conflito,
+        });
+      }
 
       if (conflito && conflito.dataValues.status === 'aceita') {
         return res.status(404).json({
@@ -111,6 +111,7 @@ class AgendaControllers {
       });
     }
   }
+
 }
 
 exports. default = new AgendaControllers();
