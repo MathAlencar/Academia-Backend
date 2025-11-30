@@ -165,98 +165,98 @@ class AlunoControllers {
     }
   }
 
-async update(req, res) {
-  try {
-    const { id } = req.params;
-    const { cpfCnpj } = req.body;
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+      const { cpfCnpj } = req.body;
 
-    if (!id) {
-      return res.status(400).json({
-        errors: ['ID do aluno não informado.'],
-      });
-    }
+      if (!id) {
+        return res.status(400).json({
+          errors: ['ID do aluno não informado.'],
+        });
+      }
 
-    const aluno = await _Alunos2.default.findByPk(id);
+      const aluno = await _Alunos2.default.findByPk(id);
 
-    if (!aluno) {
-      return res.status(404).json({
-        errors: ['Aluno não encontrado.'],
-      });
-    }
+      if (!aluno) {
+        return res.status(404).json({
+          errors: ['Aluno não encontrado.'],
+        });
+      }
 
-    // Bloqueia alteração se o CPF já estiver cadastrado e for diferente
-    if (aluno.cpf_cnpj && cpfCnpj && aluno.cpf_cnpj !== cpfCnpj) {
-      return res.status(400).json({
-        errors: ['CPF/CNPJ já cadastrado — não é permitido alterar.'],
-      });
-    }
+      // Bloqueia alteração se o CPF já estiver cadastrado e for diferente
+      if (aluno.cpf_cnpj && cpfCnpj && aluno.cpf_cnpj !== cpfCnpj) {
+        return res.status(400).json({
+          errors: ['CPF/CNPJ já cadastrado — não é permitido alterar.'],
+        });
+      }
 
     // Caso o aluno ainda não tenha CPF e o usuário informar um novo
-    if (!aluno.cpf_cnpj && cpfCnpj) {
-      try {
-        const clienteAsaas = await _cliente_service2.default.cadastrarCliente({
-          nome: aluno.nome,
-          cpfCnpj,
-          email: aluno.email,
-          telefone: aluno.celular,
-        });
+      if (!aluno.cpf_cnpj && cpfCnpj) {
+        try {
+          const clienteAsaas = await _cliente_service2.default.cadastrarCliente({
+            nome: aluno.nome,
+            cpfCnpj,
+            email: aluno.email,
+            telefone: aluno.celular,
+          });
 
-        await aluno.update({
-          cpf_cnpj: cpfCnpj,
-          cliente_id: clienteAsaas.id,
-          ...req.body, // garante atualização dos demais campos
-        });
+          await aluno.update({
+            cpf_cnpj: cpfCnpj,
+            cliente_id: clienteAsaas.id,
+            ...req.body, // garante atualização dos demais campos
+          });
 
-        return res.status(200).json({
-          message: 'CPF cadastrado e cliente criado com sucesso no Asaas.',
-          cliente_id: clienteAsaas.id,
-          cpf_cnpj: cpfCnpj,
-        });
-      } catch (err) {
-        console.error('Erro ao criar cliente no Asaas:', _optionalChain([err, 'access', _13 => _13.response, 'optionalAccess', _14 => _14.data]) || err.message);
-        return res.status(400).json({
-          errors: ['Erro ao criar cliente no Asaas. Verifique os dados informados.'],
-        });
+          return res.status(200).json({
+            message: 'CPF cadastrado e cliente criado com sucesso no Asaas.',
+            cliente_id: clienteAsaas.id,
+            cpf_cnpj: cpfCnpj,
+          });
+        } catch (err) {
+          console.error('Erro ao criar cliente no Asaas:', _optionalChain([err, 'access', _13 => _13.response, 'optionalAccess', _14 => _14.data]) || err.message);
+          return res.status(400).json({
+            errors: ['Erro ao criar cliente no Asaas. Verifique os dados informados.'],
+          });
+        }
       }
-    }
 
-    // Atualização normal (sem criação de cliente no Asaas)
-    // Faz o mapeamento camelCase → snake_case, garantindo persistência
-    const dadosAtualizados = { ...req.body };
+      // Atualização normal (sem criação de cliente no Asaas)
+      // Faz o mapeamento camelCase → snake_case, garantindo persistência
+      const dadosAtualizados = { ...req.body };
 
-    if (cpfCnpj && !aluno.cpf_cnpj) {
-      dadosAtualizados.cpf_cnpj = cpfCnpj;
-    }
-
-    delete dadosAtualizados.cpfCnpj; // remove duplicado
-
-    const alunoAtualizado = await aluno.update(dadosAtualizados);
-
-      // No final do update do aluno
-    if (aluno.cpf_cnpj && (req.body.nome || req.body.celular)) {
-      try {
-        await _cliente_service2.default.atualizarClienteAsaas({
-          cpfCnpj: aluno.cpf_cnpj,
-          nome: req.body.nome,
-          telefone: req.body.celular,
-        });
-      } catch (err) {
-        console.error('Falha ao sincronizar dados com o Asaas:', err.message);
+      if (cpfCnpj && !aluno.cpf_cnpj) {
+        dadosAtualizados.cpf_cnpj = cpfCnpj;
       }
+
+      delete dadosAtualizados.cpfCnpj; // remove duplicado
+
+      const alunoAtualizado = await aluno.update(dadosAtualizados);
+
+        // No final do update do aluno
+      if (aluno.cpf_cnpj && (req.body.nome || req.body.celular)) {
+        try {
+          await _cliente_service2.default.atualizarClienteAsaas({
+            cpfCnpj: aluno.cpf_cnpj,
+            nome: req.body.nome,
+            telefone: req.body.celular,
+          });
+        } catch (err) {
+          console.error('Falha ao sincronizar dados com o Asaas:', err.message);
+        }
+      }
+
+      return res.status(200).json({
+        message: 'Dados do aluno atualizados com sucesso.',
+        data: alunoAtualizado,
+      });
+
+    } catch (e) {
+      console.error('Erro geral na atualização do aluno:', e);
+      return res.status(400).json({
+        errors: _optionalChain([e, 'access', _15 => _15.errors, 'optionalAccess', _16 => _16.map, 'call', _17 => _17((err) => err.message)]) || [e.message],
+      });
     }
-
-    return res.status(200).json({
-      message: 'Dados do aluno atualizados com sucesso.',
-      data: alunoAtualizado,
-    });
-
-  } catch (e) {
-    console.error('Erro geral na atualização do aluno:', e);
-    return res.status(400).json({
-      errors: _optionalChain([e, 'access', _15 => _15.errors, 'optionalAccess', _16 => _16.map, 'call', _17 => _17((err) => err.message)]) || [e.message],
-    });
-  }
-  }
+    }
 }
 
 exports. default = new AlunoControllers();
