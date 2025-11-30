@@ -32,7 +32,7 @@ import ClienteRoutes from './routes/pagamento/clienteRoutes';
 import CobrancaRoutes from './routes/pagamento/cobrancaRoutes';
 
 // Personal planos
-import PersonalRoutes from './routes/personal/planosPersonalRoutes';
+import PlanosPersonalRoutes from './routes/personal/planosPersonalRoutes';
 import SubContaRoutes from './routes/pagamento/subcontaRoutes';
 
 class App {
@@ -85,11 +85,11 @@ class App {
     this.app.use('/item/exercicio/', itemExercicioRoutes);
 
     // Pagamento
-    this.app.use('/cliente', ClienteRoutes);
-    this.app.use('/cobranca', CobrancaRoutes);
+    this.app.use('/cliente/', ClienteRoutes);
+    this.app.use('/cobranca/', CobrancaRoutes);
 
     // Plano
-    this.app.use('/personal/planos/', PersonalRoutes);
+    this.app.use('/personal/planos/', PlanosPersonalRoutes);
     this.app.use('/subconta/', SubContaRoutes);
   }
 }

@@ -73,7 +73,7 @@ class App {
     this.app.use('/personal/agenda/', _personalAgendaRoutes2.default);
     this.app.use('/personal/token/', _personalTokenRoutes2.default);
     this.app.use('/personal/foto/', _personalFotosRouter2.default);
-    this.app.use('/personal/', _planosPersonalRoutes2.default);
+    this.app.use('/personal/', _personalRouter2.default);
     this.app.use('/agenda/', _agendaRoutes2.default);
     this.app.use('/chat/', _chatRoutes2.default);
 
@@ -85,8 +85,8 @@ class App {
     this.app.use('/item/exercicio/', _itemExercicioRoutes2.default);
 
     // Pagamento
-    this.app.use('/cliente', _clienteRoutes2.default);
-    this.app.use('/cobranca', _cobrancaRoutes2.default);
+    this.app.use('/cliente/', _clienteRoutes2.default);
+    this.app.use('/cobranca/', _cobrancaRoutes2.default);
 
     // Plano
     this.app.use('/personal/planos/', _planosPersonalRoutes2.default);
