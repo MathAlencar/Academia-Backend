@@ -31,6 +31,10 @@ var _videoExercicioRoutes = require('./routes/ExerciciosPersonal/videoExercicioR
 var _clienteRoutes = require('./routes/pagamento/clienteRoutes'); var _clienteRoutes2 = _interopRequireDefault(_clienteRoutes);
 var _cobrancaRoutes = require('./routes/pagamento/cobrancaRoutes'); var _cobrancaRoutes2 = _interopRequireDefault(_cobrancaRoutes);
 
+// Personal planos
+var _planosPersonalRoutes = require('./routes/personal/planosPersonalRoutes'); var _planosPersonalRoutes2 = _interopRequireDefault(_planosPersonalRoutes);
+var _subcontaRoutes = require('./routes/pagamento/subcontaRoutes'); var _subcontaRoutes2 = _interopRequireDefault(_subcontaRoutes);
+
 class App {
   constructor() {
     this.app = _express2.default.call(void 0, );
@@ -69,7 +73,7 @@ class App {
     this.app.use('/personal/agenda/', _personalAgendaRoutes2.default);
     this.app.use('/personal/token/', _personalTokenRoutes2.default);
     this.app.use('/personal/foto/', _personalFotosRouter2.default);
-    this.app.use('/personal/', _personalRouter2.default);
+    this.app.use('/personal/', _planosPersonalRoutes2.default);
     this.app.use('/agenda/', _agendaRoutes2.default);
     this.app.use('/chat/', _chatRoutes2.default);
 
@@ -83,6 +87,10 @@ class App {
     // Pagamento
     this.app.use('/cliente', _clienteRoutes2.default);
     this.app.use('/cobranca', _cobrancaRoutes2.default);
+
+    // Plano
+    this.app.use('/personal/planos/', _planosPersonalRoutes2.default);
+    this.app.use('/subconta/', _subcontaRoutes2.default);
   }
 }
 

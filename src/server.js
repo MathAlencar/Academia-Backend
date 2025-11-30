@@ -1,4 +1,3 @@
-
 import app from './App'; // OK
 import { initWebsocket } from './WebSocket/websocket';
 import http from 'http';

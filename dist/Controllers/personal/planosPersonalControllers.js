@@ -201,6 +201,7 @@ class PlanosPersonalController {
       });
     }
   }
+
 }
 
 exports. default = new PlanosPersonalController();

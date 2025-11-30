@@ -3,7 +3,7 @@ import Foto from '../../Models/FotoAlunos';
 import AulaAgenda from '../../Models/AgendaAulas';
 import Personal from '../../Models/Personal';
 import Enderecos from '../../Models/Enderecos';
-import ClienteService from '../../services/pagamento/cliente_service'; 
+import ClienteService from '../../services/pagamento/cliente_service';
 
 class AlunoControllers {
  async store(req, res) {
@@ -94,7 +94,7 @@ class AlunoControllers {
       }
 
       const users = await Aluno.findAll(options);
-      
+
       return res.json(users);
     } catch (e) {
       return res.status(400).json({
@@ -249,7 +249,7 @@ async update(req, res) {
       message: 'Dados do aluno atualizados com sucesso.',
       data: alunoAtualizado,
     });
-    
+
   } catch (e) {
     console.error('Erro geral na atualização do aluno:', e);
     return res.status(400).json({

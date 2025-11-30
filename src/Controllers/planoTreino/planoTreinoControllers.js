@@ -32,7 +32,9 @@ class PlanoTreinoControllers {
         },
       })
 
-      if(validacao) {
+
+      // Usuário não pode ter mais de 2 planos ativos.
+      if(validacao.length > 0 && status == "Ativo") {
         return res.status(404).json({
           errors: ['Já existe um plano ativo vinculado a este aluno.']
         });
@@ -88,9 +90,14 @@ class PlanoTreinoControllers {
           },
         })
 
-        if(validacao) {
+        console.log();
+
+        if(validacao.length > 0) {
+
+          const msg = validacao[0].dataValues.id == planoTreino.dataValues.id ? "Este plano já está ativo!" : 'Já existe um plano ativo vinculado a este aluno.';
+
           return res.status(404).json({
-            errors: ['Já existe um plano ativo vinculado a este aluno.']
+            errors: [msg]
           });
         }
       }

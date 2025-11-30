@@ -1,7 +1,7 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _subconta_servicejs = require('../../services/pagamento/subconta_service.js'); var _subconta_servicejs2 = _interopRequireDefault(_subconta_servicejs);
 
 class SubcontaControllers {
-  
+
   // Cria uma subconta no Asaas
  async store(req, res) {
     try {

@@ -31,6 +31,10 @@ import videoExercicioRoutes from './routes/ExerciciosPersonal/videoExercicioRout
 import ClienteRoutes from './routes/pagamento/clienteRoutes';
 import CobrancaRoutes from './routes/pagamento/cobrancaRoutes';
 
+// Personal planos
+import PersonalRoutes from './routes/personal/planosPersonalRoutes';
+import SubContaRoutes from './routes/pagamento/subcontaRoutes';
+
 class App {
   constructor() {
     this.app = express();
@@ -83,6 +87,10 @@ class App {
     // Pagamento
     this.app.use('/cliente', ClienteRoutes);
     this.app.use('/cobranca', CobrancaRoutes);
+
+    // Plano
+    this.app.use('/personal/planos/', PersonalRoutes);
+    this.app.use('/subconta/', SubContaRoutes);
   }
 }
 

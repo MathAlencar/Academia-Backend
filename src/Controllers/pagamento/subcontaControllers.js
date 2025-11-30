@@ -1,7 +1,7 @@
 import SubcontaService from '../../services/pagamento/subconta_service.js';
 
 class SubcontaControllers {
-  
+
   // Cria uma subconta no Asaas
  async store(req, res) {
     try {

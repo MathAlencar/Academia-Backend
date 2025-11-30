@@ -1,5 +1,4 @@
-"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-var _App = require('./App'); var _App2 = _interopRequireDefault(_App); // OK
+"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _App = require('./App'); var _App2 = _interopRequireDefault(_App); // OK
 var _websocket = require('./WebSocket/websocket');
 var _http = require('http'); var _http2 = _interopRequireDefault(_http);
 

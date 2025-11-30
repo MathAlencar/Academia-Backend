@@ -3,7 +3,7 @@ var _FotoAlunos = require('../../Models/FotoAlunos'); var _FotoAlunos2 = _intero
 var _AgendaAulas = require('../../Models/AgendaAulas'); var _AgendaAulas2 = _interopRequireDefault(_AgendaAulas);
 var _Personal = require('../../Models/Personal'); var _Personal2 = _interopRequireDefault(_Personal);
 var _Enderecos = require('../../Models/Enderecos'); var _Enderecos2 = _interopRequireDefault(_Enderecos);
-var _cliente_service = require('../../services/pagamento/cliente_service'); var _cliente_service2 = _interopRequireDefault(_cliente_service); 
+var _cliente_service = require('../../services/pagamento/cliente_service'); var _cliente_service2 = _interopRequireDefault(_cliente_service);
 
 class AlunoControllers {
  async store(req, res) {
@@ -94,7 +94,7 @@ class AlunoControllers {
       }
 
       const users = await _Alunos2.default.findAll(options);
-      
+
       return res.json(users);
     } catch (e) {
       return res.status(400).json({
@@ -249,7 +249,7 @@ async update(req, res) {
       message: 'Dados do aluno atualizados com sucesso.',
       data: alunoAtualizado,
     });
-    
+
   } catch (e) {
     console.error('Erro geral na atualização do aluno:', e);
     return res.status(400).json({
