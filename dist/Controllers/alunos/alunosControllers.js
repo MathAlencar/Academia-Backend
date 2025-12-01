@@ -4,6 +4,8 @@ var _AgendaAulas = require('../../Models/AgendaAulas'); var _AgendaAulas2 = _int
 var _Personal = require('../../Models/Personal'); var _Personal2 = _interopRequireDefault(_Personal);
 var _Enderecos = require('../../Models/Enderecos'); var _Enderecos2 = _interopRequireDefault(_Enderecos);
 var _cliente_service = require('../../services/pagamento/cliente_service'); var _cliente_service2 = _interopRequireDefault(_cliente_service);
+var _Cobranca = require('../../Models/Cobranca'); var _Cobranca2 = _interopRequireDefault(_Cobranca);
+var _PlanosPersonal = require('../../Models/PlanosPersonal'); var _PlanosPersonal2 = _interopRequireDefault(_PlanosPersonal);
 
 class AlunoControllers {
  async store(req, res) {
@@ -93,6 +95,19 @@ class AlunoControllers {
         });
       }
 
+      if (expand && expand.includes('cobrancas')) {
+        options.include.push({
+          model: _Cobranca2.default,
+          order: [['id', 'DESC']],
+          include: [
+            {
+              model: _PlanosPersonal2.default,
+              attributes: ['id', 'tipo_plano', 'valor'],
+            },
+          ],
+        });
+      }
+
       const users = await _Alunos2.default.findAll(options);
 
       return res.json(users);
@@ -146,6 +161,19 @@ class AlunoControllers {
           model: _Enderecos2.default,
           attributes: ['id', 'personal_id', 'rua', 'cidade'],
           order: [['id', 'DESC']],
+        });
+      }
+
+      if (expand && expand.includes('cobrancas')) {
+        options.include.push({
+          model: _Cobranca2.default,
+          order: [['id', 'DESC']],
+          include: [
+            {
+              model: _PlanosPersonal2.default,
+              attributes: ['id', 'tipo_plano', 'valor'],
+            },
+          ],
         });
       }
 
@@ -256,7 +284,7 @@ class AlunoControllers {
         errors: _optionalChain([e, 'access', _15 => _15.errors, 'optionalAccess', _16 => _16.map, 'call', _17 => _17((err) => err.message)]) || [e.message],
       });
     }
-    }
+  }
 }
 
 exports. default = new AlunoControllers();

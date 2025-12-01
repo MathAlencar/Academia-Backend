@@ -18,7 +18,8 @@ var _itemExercicio = require('../Models/itemExercicio'); var _itemExercicio2 = _
 var _videoExercicio = require('../Models/videoExercicio'); var _videoExercicio2 = _interopRequireDefault(_videoExercicio);
 
 var _Subconta = require('../Models/Subconta'); var _Subconta2 = _interopRequireDefault(_Subconta);
-var _PlanosPersonaljs = require('../Models/PlanosPersonal.js'); var _PlanosPersonaljs2 = _interopRequireDefault(_PlanosPersonaljs);
+var _PlanosPersonal = require('../Models/PlanosPersonal'); var _PlanosPersonal2 = _interopRequireDefault(_PlanosPersonal);
+var _Cobranca = require('../Models/Cobranca'); var _Cobranca2 = _interopRequireDefault(_Cobranca);
 
 const models = [
   _Administrador2.default,
@@ -37,7 +38,8 @@ const models = [
   _itemExercicio2.default,
   _videoExercicio2.default,
   _Subconta2.default,
-  _PlanosPersonaljs2.default,
+  _PlanosPersonal2.default,
+  _Cobranca2.default
 ];
 
 const connection = new (0, _sequelize.Sequelize)(_database2.default);

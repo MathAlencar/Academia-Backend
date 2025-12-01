@@ -2,21 +2,47 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('Cobrancas', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      aluno_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'alunos',
+          key: 'id',
+        },
+        onDelete: 'CASCADE', // Ao ser apagado o aluno, ele irá apagar todas as fotos enviadas.
+        onUpdate: 'CASCADE', // Caso o ID da tabela alunos for alterado, ele irá atualizar a relação com o novo ID do usuário, sendo assim essa validação.
+      },
+      plano_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'planoTreino',
+          key: 'id',
+        },
+        onDelete: 'CASCADE', // Ao ser apagado o aluno, ele irá apagar todas as fotos enviadas.
+        onUpdate: 'CASCADE', // Caso o ID da tabe
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
   },
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+  async down (queryInterface) {
+    await queryInterface.dropTable('Cobrancas');
   }
 };

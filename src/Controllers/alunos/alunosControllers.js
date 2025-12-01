@@ -4,6 +4,8 @@ import AulaAgenda from '../../Models/AgendaAulas';
 import Personal from '../../Models/Personal';
 import Enderecos from '../../Models/Enderecos';
 import ClienteService from '../../services/pagamento/cliente_service';
+import Cobrancas from '../../Models/Cobranca';
+import PlanosPersonal from '../../Models/PlanosPersonal';
 
 class AlunoControllers {
  async store(req, res) {
@@ -93,6 +95,19 @@ class AlunoControllers {
         });
       }
 
+      if (expand && expand.includes('cobrancas')) {
+        options.include.push({
+          model: Cobrancas,
+          order: [['id', 'DESC']],
+          include: [
+            {
+              model: PlanosPersonal,
+              attributes: ['id', 'tipo_plano', 'valor'],
+            },
+          ],
+        });
+      }
+
       const users = await Aluno.findAll(options);
 
       return res.json(users);
@@ -146,6 +161,19 @@ class AlunoControllers {
           model: Enderecos,
           attributes: ['id', 'personal_id', 'rua', 'cidade'],
           order: [['id', 'DESC']],
+        });
+      }
+
+      if (expand && expand.includes('cobrancas')) {
+        options.include.push({
+          model: Cobrancas,
+          order: [['id', 'DESC']],
+          include: [
+            {
+              model: PlanosPersonal,
+              attributes: ['id', 'tipo_plano', 'valor'],
+            },
+          ],
         });
       }
 
@@ -256,7 +284,7 @@ class AlunoControllers {
         errors: e.errors?.map((err) => err.message) || [e.message],
       });
     }
-    }
+  }
 }
 
 export default new AlunoControllers();

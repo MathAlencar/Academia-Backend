@@ -2,6 +2,7 @@
 var _Subcontajs = require('../../Models/Subconta.js'); var _Subcontajs2 = _interopRequireDefault(_Subcontajs);
 var _Alunosjs = require('../../Models/Alunos.js'); var _Alunosjs2 = _interopRequireDefault(_Alunosjs);
 var _PlanosPersonaljs = require('../../Models/PlanosPersonal.js'); var _PlanosPersonaljs2 = _interopRequireDefault(_PlanosPersonaljs);
+var _Cobrancajs = require('../../Models/Cobranca.js'); var _Cobrancajs2 = _interopRequireDefault(_Cobrancajs);
 
 class CobrancaControllers {
 
@@ -75,6 +76,12 @@ async store(req, res) {
       splitConfig,
       dadosCartao
     );
+
+    // Criando na tabela de cobrança
+    await _Cobrancajs2.default.create({
+      aluno_id: alunoId,
+      plano_id: planoId
+    })
 
     return res.status(201).json(cobranca);
   } catch (e) {

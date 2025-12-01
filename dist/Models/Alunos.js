@@ -133,6 +133,7 @@ var _bcrypt = require('bcrypt'); var _bcrypt2 = _interopRequireDefault(_bcrypt);
     this.hasMany(models.AlunoFoto, { foreignKey: 'aluno_id' });
     this.hasMany(models.AulaAgenda, { foreignKey: 'aluno_id' });
     this.hasMany(models.planoTreino, { foreignKey: 'aluno_id' });
+    this.hasMany(models.Cobrancas, { foreignKey: 'aluno_id' });
     this.hasOne(models.Enderecos, { foreignKey: 'aluno_id' });
   }
 

@@ -2,6 +2,7 @@ import CobrancaService from '../../services/pagamento/cobranca_service.js';
 import Subconta from '../../Models/Subconta.js';
 import Aluno from '../../Models/Alunos.js';
 import Plano from '../../Models/PlanosPersonal.js';
+import Cobrancas from '../../Models/Cobranca.js';
 
 class CobrancaControllers {
 
@@ -75,6 +76,12 @@ async store(req, res) {
       splitConfig,
       dadosCartao
     );
+
+    // Criando na tabela de cobrança
+    await Cobrancas.create({
+      aluno_id: alunoId,
+      plano_id: planoId
+    })
 
     return res.status(201).json(cobranca);
   } catch (e) {
