@@ -6,6 +6,7 @@ const routes = _express.Router.call(void 0, );
 
 routes.post('/', _personalLoginRiquered2.default, _ExercicioPersonal2.default.store);
 routes.get('/', _personalLoginRiquered2.default, _ExercicioPersonal2.default.index);
+routes.get('/unique/:id', _ExercicioPersonal2.default.indexOne);
 routes.put('/:id', _personalLoginRiquered2.default, _ExercicioPersonal2.default.update);
 routes.delete('/:id', _personalLoginRiquered2.default, _ExercicioPersonal2.default.delete);
 

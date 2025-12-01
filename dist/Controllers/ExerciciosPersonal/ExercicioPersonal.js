@@ -150,6 +150,37 @@ class ExercicioControllers {
     }
   }
 
+  async indexOne(req, res) {
+  try {
+    const { id } = req.params;
+
+    const result = await _ExercicioPersonal2.default.findByPk(id, {
+      order: [
+        ['id', 'DESC'], // se fizer sentido ordenar o principal
+        [_videoExercicio2.default, 'id', 'DESC'], // ordena os vídeos mais novos primeiro
+      ],
+      include: [
+        {
+          model: _videoExercicio2.default,
+          attributes: ['url', 'filename'],
+        },
+      ],
+    });
+
+    if (!result) {
+      return res.status(404).json({
+        errors: ['Exercício não encontrado.'],
+      });
+    }
+
+    return res.status(200).json({ result });
+  } catch (e) {
+    return res.status(400).json({
+      errors: _optionalChain([e, 'access', _13 => _13.errors, 'optionalAccess', _14 => _14.map, 'call', _15 => _15((err) => err.message)]) || [e.message],
+    });
+  }
+  }
+
 }
 
 exports. default = new ExercicioControllers();

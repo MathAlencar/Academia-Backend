@@ -6,6 +6,7 @@ const routes = Router();
 
 routes.post('/', personalLoginRiquered, ExerciciosPersonal.store);
 routes.get('/', personalLoginRiquered, ExerciciosPersonal.index);
+routes.get('/unique/:id', ExerciciosPersonal.indexOne);
 routes.put('/:id', personalLoginRiquered, ExerciciosPersonal.update);
 routes.delete('/:id', personalLoginRiquered, ExerciciosPersonal.delete);
 
