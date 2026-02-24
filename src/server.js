@@ -12,5 +12,5 @@ initWebsocket(server);
 
 // Agora quem deve escutar é o server (NÃO o app)
 server.listen(port, () => {
-  console.log(`HTTP + WebSocket rodando na porta ${port}...`);
+  console.log(`rodando na porta ${port}...`);
 });
