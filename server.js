@@ -2,7 +2,7 @@ import app from './App'; // OK
 import { initWebsocket } from './src/WebSocket/websocket';
 import http from 'http';
 
-const port = 3018;
+const port = 3070;
 
 // O server REAL do Express
 const server = http.createServer(app);
