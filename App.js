@@ -43,7 +43,21 @@ class App {
   }
 
   middlewares() {
-    this.app.use(cors());
+    const allowedOrigins = process.env.CORS_ORIGINS
+      ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
+      : [];
+
+    this.app.use(cors({
+      origin(origin, callback) {
+        // Allow requests with no origin (mobile apps, curl, server-to-server)
+        if (!origin || allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+      },
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    }));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(express.static(resolve(__dirname, 'upload')));

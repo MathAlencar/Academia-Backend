@@ -4,7 +4,9 @@ import { extname, resolve } from 'path';
 const aleatorio = () => Math.floor(Math.random() * 10000 + 10000);
 
 export default {
-  // Aqui você criou uma função que irá validar o tipo de aruqivo que você deseja receber, assim evitando envio de arquivos que não sejam da extensão .png ou .jpeg
+  limits: {
+    fileSize: 100 * 1024 * 1024, // 100 MB
+  },
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
       'video/mp4',

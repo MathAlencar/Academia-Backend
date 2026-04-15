@@ -5,8 +5,6 @@ class SubcontaControllers {
   // Cria uma subconta no Asaas
  async store(req, res) {
     try {
-      console.log('Corpo recebido pelo controller:', req.body);
-
       const novaSubconta = await SubcontaService.criarSubconta(req.body);
 
       return res.status(201).json({
@@ -26,8 +24,6 @@ class SubcontaControllers {
   async update(req, res) {
     try {
       const { personal_id } = req.params;
-      console.log('Corpo recebido para atualização:', req.body);
-
       const subcontaAtualizada = await SubcontaService.atualizarSubconta(personal_id, req.body);
 
       return res.status(200).json({
