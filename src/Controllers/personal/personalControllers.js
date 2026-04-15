@@ -5,6 +5,8 @@ import AulaAgenda from '../../Models/AgendaAulas';
 import Alunos from '../../Models/Alunos';
 import Enderecos from '../../Models/Enderecos';
 
+const ALLOWED_SELECT_FIELDS = ['id', 'nome', 'email', 'descricao', 'formacao', 'experiencia', 'cidade', 'profissao', 'areaAtuacao', 'modeloAtendimento', 'created_at', 'updated_at'];
+
 class PersonalControllers {
   async store(req, res) {
     try {
@@ -21,7 +23,7 @@ class PersonalControllers {
   async index(req, res) {
     try {
       // Seguindo o padrão Odata de seleção;
-      const select = req.query.$select ? req.query.$select.split(',') : null;
+      const select = req.query.$select ? req.query.$select.split(',').filter((f) => ALLOWED_SELECT_FIELDS.includes(f.trim())) : null;
       const expand = req.query.$expand ? req.query.$expand.split(',') : null;
 
       const options = {
@@ -29,14 +31,12 @@ class PersonalControllers {
         include: [],
       };
 
-      // Aqui você seleciona atributos de uma mesma tabela;
       if (select && select.length) {
         options.attributes = select;
       } else {
         options.attributes = ['id', 'nome', 'email'];
       }
 
-      // Aqui ele é usado para consultar de outras tabelas;
       if (expand && expand.includes('foto')) {
         options.include.push({
           model: Foto,
@@ -86,7 +86,7 @@ class PersonalControllers {
 
   async show(req, res) {
     try {
-      const select = req.query.$select ? req.query.$select.split(',') : null;
+      const select = req.query.$select ? req.query.$select.split(',').filter((f) => ALLOWED_SELECT_FIELDS.includes(f.trim())) : null;
       const expand = req.query.$expand ? req.query.$expand.split(',') : null;
 
       const options = {

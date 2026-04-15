@@ -90,8 +90,6 @@ class PlanoTreinoControllers {
           },
         })
 
-        console.log();
-
         if(validacao.length > 0) {
 
           const msg = validacao[0].dataValues.id == planoTreino.dataValues.id ? "Este plano já está ativo!" : 'Já existe um plano ativo vinculado a este aluno.';

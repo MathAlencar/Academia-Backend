@@ -9,7 +9,6 @@ class videoControllers {
   store(req, res) {
     return upload(req, res, async (err) => {
       if (err) {
-        console.log(err)
         return res.status(400).json({ error: 'Erro ao carregar video' });
       }
 
@@ -17,8 +16,6 @@ class videoControllers {
       const { exercicio_personal_id } = req.body;
 
       const exercicioPersonal = await ExercicioPersonal.findByPk(exercicio_personal_id);
-
-      console.log(exercicioPersonal)
 
       if (!exercicioPersonal) {
         return res.status(400).json({

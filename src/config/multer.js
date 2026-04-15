@@ -4,7 +4,9 @@ import { extname, resolve } from 'path';
 const aleatorio = () => Math.floor(Math.random() * 10000 + 10000);
 
 export default {
-  // Aqui você criou uma função que irá validar o tipo de aruqivo que você deseja receber, assim evitando envio de arquivos que não sejam da extensão .png ou .jpeg
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5 MB
+  },
   fileFilter: (req, file, cb) => {
     if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg') {
       return cb(new multer.MulterError('Arquivo precisa ser PNG ou JPG'));

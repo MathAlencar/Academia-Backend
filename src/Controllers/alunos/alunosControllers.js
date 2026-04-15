@@ -7,6 +7,8 @@ import ClienteService from '../../services/pagamento/cliente_service';
 import Cobrancas from '../../Models/Cobranca';
 import PlanosPersonal from '../../Models/PlanosPersonal';
 
+const ALLOWED_SELECT_FIELDS = ['id', 'nome', 'email', 'dateNascimento', 'genero', 'celular', 'altura', 'peso', 'condicaoMedica', 'historicoLesao', 'nivelAtividade', 'objetivo', 'cliente_id', 'created_at', 'updated_at'];
+
 class AlunoControllers {
  async store(req, res) {
     try {
@@ -51,7 +53,7 @@ class AlunoControllers {
 
   async index(req, res) {
     try {
-      const select = req.query.$select ? req.query.$select.split(',') : null;
+      const select = req.query.$select ? req.query.$select.split(',').filter((f) => ALLOWED_SELECT_FIELDS.includes(f.trim())) : null;
       const expand = req.query.$expand ? req.query.$expand.split(',') : null;
 
       const options = {
@@ -120,7 +122,7 @@ class AlunoControllers {
 
   async show(req, res) {
     try {
-      const select = req.query.$select ? req.query.$select.split(',') : null;
+      const select = req.query.$select ? req.query.$select.split(',').filter((f) => ALLOWED_SELECT_FIELDS.includes(f.trim())) : null;
       const expand = req.query.$expand ? req.query.$expand.split(',') : null;
 
       const options = {

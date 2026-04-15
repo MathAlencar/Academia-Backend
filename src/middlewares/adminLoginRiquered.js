@@ -15,7 +15,7 @@ export default async (req, res, next) => {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET_ADMIN);
     const { id, email } = dados;
 
-    const user = Administrador.findOne({
+    const user = await Administrador.findOne({
       where: {
         id,
         email,

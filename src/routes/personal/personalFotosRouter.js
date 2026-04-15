@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import personalFotosControllers from '../../Controllers/personal/personalFotosControllers';
+import loginRiquered from '../../middlewares/personalLoginRiquered';
 
 const route = Router();
 
-route.post('/', personalFotosControllers.store); // será uma rota protegida pelo token personal
+route.post('/', loginRiquered, personalFotosControllers.store);
 
 export default route;

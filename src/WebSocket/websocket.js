@@ -4,9 +4,18 @@ import { Server } from 'socket.io';
 let io = null;
 
 export function initWebsocket(server) {
+  const allowedOrigins = process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
+    : [];
+
   io = new Server(server, {
     cors: {
-      origin: '*', // depois você pode restringir pro domínio do front
+      origin(origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+      },
       methods: ['GET', 'POST'],
     },
   });
