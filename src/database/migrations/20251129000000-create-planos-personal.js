@@ -1,50 +1,30 @@
-'use strict';  
-  
 /** @type {import('sequelize-cli').Migration} */  
 module.exports = {  
   async up(queryInterface, Sequelize) {  
-    await queryInterface.createTable('Cobrancas', {  
+    await queryInterface.createTable('planos_personal', {  
       id: {  
         type: Sequelize.INTEGER,  
         allowNull: false,  
         primaryKey: true,  
         autoIncrement: true,  
       },  
-      aluno_id: {  
+      personal_id: {  
         type: Sequelize.INTEGER,  
         allowNull: false,  
         references: {  
-          model: 'alunos',  
+          model: 'personal',  
           key: 'id',  
         },  
         onDelete: 'CASCADE',  
         onUpdate: 'CASCADE',  
       },  
-      plano_id: {  
-        type: Sequelize.INTEGER,  
+      tipo_plano: {  
+        type: Sequelize.ENUM('Experimental', 'Avulsa', 'Mensal', 'Bimestral', 'Trimestral'),  
         allowNull: false,  
-        references: {  
-          model: 'planos_personal',  
-          key: 'id',  
-        },  
-        onDelete: 'CASCADE',  
-        onUpdate: 'CASCADE',  
       },  
-      payment_link_id: {  
-        type: Sequelize.STRING,  
-        allowNull: true,  
-      },  
-      checkout_url: {  
-        type: Sequelize.STRING,  
-        allowNull: true,  
-      },  
-      status: {  
-        type: Sequelize.STRING,  
-        defaultValue: 'PENDING',  
-      },  
-      value: {  
+      valor: {  
         type: Sequelize.DECIMAL(10, 2),  
-        allowNull: true,  
+        allowNull: false,  
       },  
       created_at: {  
         type: Sequelize.DATE,  
@@ -55,9 +35,13 @@ module.exports = {
         allowNull: false,  
       },  
     });  
+  
+    await queryInterface.addIndex('planos_personal', ['personal_id', 'tipo_plano'], {  
+      unique: true,  
+    });  
   },  
   
   async down(queryInterface) {  
-    await queryInterface.dropTable('Cobrancas');  
+    await queryInterface.dropTable('planos_personal');  
   },  
 };
