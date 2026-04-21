@@ -58,9 +58,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      cliente_id: {
-        type: Sequelize.STRING,
-        allowNull: true,
+      cpf_cnpj: {  
+        type: Sequelize.STRING,  
+        allowNull: true,  
+        unique: true,  
       },
       created_at: {
         type: Sequelize.DATE,
