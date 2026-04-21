@@ -11,7 +11,7 @@ export default class Cobrancas extends Model {
         type: Sequelize.INTEGER,  
         allowNull: false,  
       },  
-      pagamento_link_id: {  
+      payment_link_id: {  
         type: Sequelize.STRING,  
         allowNull: true,  
       },  
