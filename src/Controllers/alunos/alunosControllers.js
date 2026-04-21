@@ -11,13 +11,12 @@ class AlunoControllers {
  async store(req, res) {
     try {
       const dadosAluno = req.body;
-      let clienteAsaas = null;
 
       // Cria o aluno no banco
       const novoAluno = await Aluno.create(dadosAluno);
 
-      const { id, nome, email, cliente_id } = novoAluno;
-      return res.status(201).json({ id, nome, email, cliente_id });
+      const { id, nome, email } = novoAluno;
+      return res.status(201).json({ id, nome, email});
     } catch (e) {
       console.error('Erro ao criar aluno:', e);
       return res.status(400).json({

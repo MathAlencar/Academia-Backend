@@ -96,13 +96,7 @@ export default class Alunos extends Model {
           },  
         },  
         type: Sequelize.STRING,  
-      },  
-      // Preenchido APENAS via webhook do Asaas após o aluno completar o checkout.  
-      // NÃO é mais preenchido no store/update do controller.  
-      cliente_id: {  
-        defaultValue: null,  
-        type: Sequelize.STRING,  
-      },  
+      },
       password_hash: {  
         defaultValue: '',  
         type: Sequelize.STRING,  
