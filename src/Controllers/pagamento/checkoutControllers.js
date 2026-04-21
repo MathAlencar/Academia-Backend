@@ -36,7 +36,7 @@ class CheckoutControllers {
         where: { personal_id: plano.personal_id },  
       });  
   
-      if (!subconta || !subconta.carteira_id) {  
+      if (!subconta || !subconta.wallet_id) {  
         return res.status(400).json({  
           errors: ['Personal não possui subconta/carteira configurada no Asaas.'],  
         });  
@@ -47,7 +47,8 @@ class CheckoutControllers {
       const checkout = await CheckoutService.criarCheckout(  
         nomeCheckout,  
         plano.valor,  
-        subconta.carteira_id,  
+        subconta.wallet_id,  
+      );  
       );  
   
       // 5. Salvar registro na tabela Cobrancas  
