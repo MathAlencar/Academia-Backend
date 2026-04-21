@@ -23,7 +23,7 @@ export default class Cobrancas extends Model {
         type: Sequelize.STRING,  
         defaultValue: 'PENDING',  
       },  
-      valor: {  
+      value: {  
         type: Sequelize.DECIMAL(10, 2),  
         allowNull: true,  
       },  
