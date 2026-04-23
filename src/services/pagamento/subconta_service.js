@@ -44,6 +44,7 @@ const SubcontaService = {
           province: dados.bairro,  
           postalCode: dados.cep,  
           incomeValue: dados.rendaMensal,  
+          companyType: dados.companyType || 'MEI',
         },  
         {  
           headers: {  
