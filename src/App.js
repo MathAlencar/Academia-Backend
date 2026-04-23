@@ -30,7 +30,8 @@ import videoExercicioRoutes from './routes/ExerciciosPersonal/videoExercicioRout
 // Rotas de pagamento
 import ClienteRoutes from './routes/pagamento/clienteRoutes';
 import CobrancaRoutes from './routes/pagamento/cobrancaRoutes';
-
+import WebhookRoutes from './routes/pagamento/webhookRoutes';  
+  
 // Personal planos
 import PlanosPersonalRoutes from './routes/personal/planosPersonalRoutes';
 import SubContaRoutes from './routes/pagamento/subcontaRoutes';
@@ -87,6 +88,7 @@ class App {
     // Pagamento
     this.app.use('/cliente/', ClienteRoutes);
     this.app.use('/cobranca/', CobrancaRoutes);
+    this.app.use('/webhook/', WebhookRoutes);
 
     // Plano
     this.app.use('/personal/planos/', PlanosPersonalRoutes);
