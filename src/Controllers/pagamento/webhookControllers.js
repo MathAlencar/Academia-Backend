@@ -8,6 +8,7 @@ const TOKENS = {
 };  
   
 function validarToken(req, tokenEsperado) {  
+  if (!tokenEsperado) return false;  
   const tokenRecebido = req.headers['asaas-access-token'];  
   return tokenRecebido === tokenEsperado;  
 }  
