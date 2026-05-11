@@ -30,7 +30,8 @@ var _videoExercicioRoutes = require('./routes/ExerciciosPersonal/videoExercicioR
 // Rotas de pagamento
 var _clienteRoutes = require('./routes/pagamento/clienteRoutes'); var _clienteRoutes2 = _interopRequireDefault(_clienteRoutes);
 var _cobrancaRoutes = require('./routes/pagamento/cobrancaRoutes'); var _cobrancaRoutes2 = _interopRequireDefault(_cobrancaRoutes);
-
+var _webhookRoutes = require('./routes/pagamento/webhookRoutes'); var _webhookRoutes2 = _interopRequireDefault(_webhookRoutes);  
+  
 // Personal planos
 var _planosPersonalRoutes = require('./routes/personal/planosPersonalRoutes'); var _planosPersonalRoutes2 = _interopRequireDefault(_planosPersonalRoutes);
 var _subcontaRoutes = require('./routes/pagamento/subcontaRoutes'); var _subcontaRoutes2 = _interopRequireDefault(_subcontaRoutes);
@@ -87,6 +88,7 @@ class App {
     // Pagamento
     this.app.use('/cliente/', _clienteRoutes2.default);
     this.app.use('/cobranca/', _cobrancaRoutes2.default);
+    this.app.use('/webhook/', _webhookRoutes2.default);
 
     // Plano
     this.app.use('/personal/planos/', _planosPersonalRoutes2.default);
