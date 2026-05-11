@@ -53,6 +53,34 @@ function montarPayloadAsaas({ personal, endereco, dados }) {
 }
 
 const SubcontaService = {  
+
+  async consultarMinhaSubconta(personalId) {
+    try {
+      if (!personalId) {
+        throw new Error('Personal não autenticado.');
+      }
+
+      return await Subconta.findOne({
+        where: { personal_id: personalId },
+        attributes: [
+          'id',
+          'personal_id',
+          'asaas_account_id',
+          'wallet_id',
+          'onboarding_url',
+          'company_type',
+          'status_cadastro',
+          'status_aprovacao',
+          'status_recebimento',
+          'created_at',
+          'updated_at',
+        ],
+      });
+    } catch (error) {
+      console.error('Erro ao consultar subconta:', error.message);
+      throw new Error(error.message || 'Falha ao consultar subconta.');
+    }
+  },
   
   async criarSubconta(personalId, dados) {   
     let subconta = null;  
