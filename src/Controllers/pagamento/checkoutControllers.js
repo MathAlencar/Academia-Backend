@@ -49,7 +49,6 @@ class CheckoutControllers {
         plano.valor,  
         subconta.wallet_id,  
       );  
-      );  
   
       // 5. Salvar registro na tabela Cobrancas  
       const cobranca = await Cobrancas.create({  

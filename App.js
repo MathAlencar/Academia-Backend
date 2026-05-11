@@ -31,7 +31,8 @@ import videoExercicioRoutes from './src/routes/ExerciciosPersonal/videoExercicio
 import ClienteRoutes from './src/routes/pagamento/clienteRoutes';
 import CobrancaRoutes from './src/routes/pagamento/cobrancaRoutes';
 import CheckoutRoutes from './src/routes/pagamento/checkoutRoutes';
-
+import WebhookRoutes from './src/routes/pagamento/webhookRoutes';  
+  
 // Personal Routes
 import PlanosPersonalRoutes from './src/routes/personal/planosPersonalRoutes';
 import SubContaRoutes from './src/routes/pagamento/subcontaRoutes';
@@ -77,6 +78,7 @@ class App {
     this.app.use('/checkout/', CheckoutRoutes);
     this.app.use('/personal/planos/', PlanosPersonalRoutes);
     this.app.use('/subconta/', SubContaRoutes);
+    this.app.use('/webhook/', WebhookRoutes);
   }
 }
 
