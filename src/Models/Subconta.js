@@ -26,7 +26,11 @@ export default class Subconta extends Model {
         onboarding_url: {  
           type: Sequelize.STRING(500),  
           allowNull: true,  
-        },  
+        },
+        company_type: {  
+          type: Sequelize.ENUM('MEI', 'LIMITED', 'INDIVIDUAL', 'ASSOCIATION'),  
+          allowNull: true,  
+        },
         status_cadastro: {  
           type: Sequelize.ENUM('PENDENTE', 'CONCLUIDO', 'ERRO'),  
           defaultValue: 'PENDENTE',  
@@ -38,7 +42,7 @@ export default class Subconta extends Model {
         status_recebimento: {  
           type: Sequelize.ENUM('HABILITADO', 'DESABILITADO', 'PENDENTE'),  
           defaultValue: 'PENDENTE',  
-        },  
+        },
       },  
       {  
         sequelize,  
