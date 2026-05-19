@@ -4,6 +4,9 @@ var _PersonalAgenda = require('../../Models/PersonalAgenda'); var _PersonalAgend
 var _AgendaAulas = require('../../Models/AgendaAulas'); var _AgendaAulas2 = _interopRequireDefault(_AgendaAulas);
 var _Alunos = require('../../Models/Alunos'); var _Alunos2 = _interopRequireDefault(_Alunos);
 var _Enderecos = require('../../Models/Enderecos'); var _Enderecos2 = _interopRequireDefault(_Enderecos);
+var _RGPersonal = require('../../Models/RGPersonal'); var _RGPersonal2 = _interopRequireDefault(_RGPersonal);
+var _DocumentoFotoPersonal = require('../../Models/DocumentoFotoPersonal'); var _DocumentoFotoPersonal2 = _interopRequireDefault(_DocumentoFotoPersonal);
+var _Diploma = require('../../Models/Diploma'); var _Diploma2 = _interopRequireDefault(_Diploma);
 
 class PersonalControllers {
   async store(req, res) {
@@ -75,8 +78,47 @@ class PersonalControllers {
         });
       }
 
+      if (expand && expand.includes('Documento')) {
+        options.include.push(
+          {
+            model: _RGPersonal2.default,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: _DocumentoFotoPersonal2.default,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: _Diploma2.default,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          }
+        );
+      }
+
       const users = await _Personal2.default.findAll(options);
-      return res.json(users);
+
+      const result = users.map(user => {
+        const item = user.toJSON();
+
+        if (expand && expand.includes('Documento')) {
+          item.Documentos = {
+            RG: item.RgPersonals || [],
+            FotoValidacao: item.FotoValidacaos || [],
+            Diploma: item.Diplomas || [],
+          };
+
+          delete item.RgPersonals;
+          delete item.FotoValidacaos;
+          delete item.Diplomas;
+        }
+
+        return item;
+      });
+
+      return res.json(result);
     } catch (e) {
       return res.status(400).json({
         errors: _optionalChain([e, 'access', _4 => _4.errors, 'optionalAccess', _5 => _5.map, 'call', _6 => _6((err) => err.message)]) || [e.message],
@@ -138,6 +180,34 @@ class PersonalControllers {
         });
       }
 
+      if (expand && expand.includes('Documento')) {
+        options.include.push({
+          model: _RGPersonal2.default,
+          attributes: ['url', 'filename', 'status'],
+          order: [['id', 'DESC']],
+        });
+      }
+
+      if (expand && expand.includes('Documento')) {
+        options.include.push(
+          {
+            model: _RGPersonal2.default,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: _DocumentoFotoPersonal2.default,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: _Diploma2.default,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          }
+        );
+      }
+
       const user = await _Personal2.default.findByPk(req.params.id, options);
 
       if (!user) {
@@ -146,7 +216,21 @@ class PersonalControllers {
         });
       }
 
-      return res.status(200).json(user);
+      const item = user.toJSON();
+
+      if (expand && expand.includes('Documento')) {
+        item.Documentos = {
+          RG: item.RgPersonals || [],
+          FotoValidacao: item.FotoValidacaos || [],
+          Diploma: item.Diplomas || [],
+        };
+
+        delete item.RgPersonals;
+        delete item.FotoValidacaos;
+        delete item.Diplomas;
+      }
+
+      return res.status(200).json(item);
     } catch (e) {
       return res.status(400).json({
         errors: _optionalChain([e, 'access', _7 => _7.errors, 'optionalAccess', _8 => _8.map, 'call', _9 => _9((err) => err.message)]) || [e.message],

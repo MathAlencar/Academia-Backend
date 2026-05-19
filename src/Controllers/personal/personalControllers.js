@@ -4,6 +4,9 @@ import Agenda from '../../Models/PersonalAgenda';
 import AulaAgenda from '../../Models/AgendaAulas';
 import Alunos from '../../Models/Alunos';
 import Enderecos from '../../Models/Enderecos';
+import DocumentoRG from '../../Models/RGPersonal';
+import FotoValidacao from '../../Models/DocumentoFotoPersonal';
+import Diploma from '../../Models/Diploma';
 
 class PersonalControllers {
   async store(req, res) {
@@ -75,8 +78,47 @@ class PersonalControllers {
         });
       }
 
+      if (expand && expand.includes('Documento')) {
+        options.include.push(
+          {
+            model: DocumentoRG,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: FotoValidacao,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: Diploma,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          }
+        );
+      }
+
       const users = await Personal.findAll(options);
-      return res.json(users);
+
+      const result = users.map(user => {
+        const item = user.toJSON();
+
+        if (expand && expand.includes('Documento')) {
+          item.Documentos = {
+            RG: item.RgPersonals || [],
+            FotoValidacao: item.FotoValidacaos || [],
+            Diploma: item.Diplomas || [],
+          };
+
+          delete item.RgPersonals;
+          delete item.FotoValidacaos;
+          delete item.Diplomas;
+        }
+
+        return item;
+      });
+
+      return res.json(result);
     } catch (e) {
       return res.status(400).json({
         errors: e.errors?.map((err) => err.message) || [e.message],
@@ -138,6 +180,34 @@ class PersonalControllers {
         });
       }
 
+      if (expand && expand.includes('Documento')) {
+        options.include.push({
+          model: DocumentoRG,
+          attributes: ['url', 'filename', 'status'],
+          order: [['id', 'DESC']],
+        });
+      }
+
+      if (expand && expand.includes('Documento')) {
+        options.include.push(
+          {
+            model: DocumentoRG,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: FotoValidacao,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          },
+          {
+            model: Diploma,
+            attributes: ['id', 'url', 'filename', 'status'],
+            order: [['id', 'DESC']],
+          }
+        );
+      }
+
       const user = await Personal.findByPk(req.params.id, options);
 
       if (!user) {
@@ -146,7 +216,21 @@ class PersonalControllers {
         });
       }
 
-      return res.status(200).json(user);
+      const item = user.toJSON();
+
+      if (expand && expand.includes('Documento')) {
+        item.Documentos = {
+          RG: item.RgPersonals || [],
+          FotoValidacao: item.FotoValidacaos || [],
+          Diploma: item.Diplomas || [],
+        };
+
+        delete item.RgPersonals;
+        delete item.FotoValidacaos;
+        delete item.Diplomas;
+      }
+
+      return res.status(200).json(item);
     } catch (e) {
       return res.status(400).json({
         errors: e.errors?.map((err) => err.message) || [e.message],
