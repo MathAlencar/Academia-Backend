@@ -19,6 +19,7 @@ import AlunoFotosRoutes from './routes/alunos/alunosFotosRoutes';
 import AgendaRoutes from './routes/AgendaGeral/agendaRoutes';
 import EnderecosRoutes from './routes/enderecos/enredecosRoutes';
 import ChatRoutes from './routes/chat/chatRoutes';
+import DocumentoRoutes from './src/routes/personal/DocumentoRoutes';
 
 // Rotas de treino
 import ExerciciosPersonal from './routes/ExerciciosPersonal/ExerciciosPersonal';
@@ -77,6 +78,7 @@ class App {
     this.app.use('/personal/', PersonalRoutes);
     this.app.use('/agenda/', AgendaRoutes);
     this.app.use('/chat/', ChatRoutes);
+    this.app.use('/documento/', DocumentoRoutes);
 
     // Treino
     this.app.use('/exercicios/', ExerciciosPersonal);

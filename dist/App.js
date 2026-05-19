@@ -19,6 +19,7 @@ var _alunosFotosRoutes = require('./routes/alunos/alunosFotosRoutes'); var _alun
 var _agendaRoutes = require('./routes/AgendaGeral/agendaRoutes'); var _agendaRoutes2 = _interopRequireDefault(_agendaRoutes);
 var _enredecosRoutes = require('./routes/enderecos/enredecosRoutes'); var _enredecosRoutes2 = _interopRequireDefault(_enredecosRoutes);
 var _chatRoutes = require('./routes/chat/chatRoutes'); var _chatRoutes2 = _interopRequireDefault(_chatRoutes);
+var _DocumentoRoutes = require('./src/routes/personal/DocumentoRoutes'); var _DocumentoRoutes2 = _interopRequireDefault(_DocumentoRoutes);
 
 // Rotas de treino
 var _ExerciciosPersonal = require('./routes/ExerciciosPersonal/ExerciciosPersonal'); var _ExerciciosPersonal2 = _interopRequireDefault(_ExerciciosPersonal);
@@ -77,6 +78,7 @@ class App {
     this.app.use('/personal/', _personalRouter2.default);
     this.app.use('/agenda/', _agendaRoutes2.default);
     this.app.use('/chat/', _chatRoutes2.default);
+    this.app.use('/documento/', _DocumentoRoutes2.default);
 
     // Treino
     this.app.use('/exercicios/', _ExerciciosPersonal2.default);
