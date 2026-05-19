@@ -19,7 +19,7 @@ import AlunoFotosRoutes from './routes/alunos/alunosFotosRoutes';
 import AgendaRoutes from './routes/AgendaGeral/agendaRoutes';
 import EnderecosRoutes from './routes/enderecos/enredecosRoutes';
 import ChatRoutes from './routes/chat/chatRoutes';
-import DocumentoRoutes from './src/routes/personal/DocumentoRoutes';
+import DocumentoRoutes from './routes/personal/DocumentoRoutes';
 
 // Rotas de treino
 import ExerciciosPersonal from './routes/ExerciciosPersonal/ExerciciosPersonal';
