@@ -11,40 +11,16 @@ class AlunoControllers {
  async store(req, res) {
     try {
       const dadosAluno = req.body;
-      let clienteAsaas = null;
-
-      // Se tiver CPF/CNPJ, cria o customer no Asaas antes de salvar o aluno
-      if (dadosAluno.cpfCnpj) {
-        try {
-          clienteAsaas = await _cliente_service2.default.cadastrarCliente({
-            nome: dadosAluno.nome,
-            cpfCnpj: dadosAluno.cpfCnpj,
-            email: dadosAluno.email,
-            telefone: dadosAluno.celular,
-          });
-        } catch (err) {
-          console.error('Erro ao criar cliente no Asaas:', _optionalChain([err, 'access', _ => _.response, 'optionalAccess', _2 => _2.data]) || err.message);
-          return res.status(400).json({
-            errors: ['Erro ao criar cliente no Asaas. Verifique os dados informados.'],
-          });
-        }
-      }
-
-      // Se criou customer, adiciona cliente_id e cpf_cnpj ao cadastro do aluno
-      if (_optionalChain([clienteAsaas, 'optionalAccess', _3 => _3.id])) {
-        dadosAluno.cliente_id = clienteAsaas.id;
-        dadosAluno.cpf_cnpj = dadosAluno.cpfCnpj;
-      }
 
       // Cria o aluno no banco
       const novoAluno = await _Alunos2.default.create(dadosAluno);
 
-      const { id, nome, email, cliente_id } = novoAluno;
-      return res.status(201).json({ id, nome, email, cliente_id });
+      const { id, nome, email } = novoAluno;
+      return res.status(201).json({ id, nome, email});
     } catch (e) {
       console.error('Erro ao criar aluno:', e);
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _4 => _4.errors, 'optionalAccess', _5 => _5.map, 'call', _6 => _6((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _ => _.errors, 'optionalAccess', _2 => _2.map, 'call', _3 => _3((err) => err.message)]) || [e.message],
       });
     }
   }
@@ -113,7 +89,7 @@ class AlunoControllers {
       return res.json(users);
     } catch (e) {
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _7 => _7.errors, 'optionalAccess', _8 => _8.map, 'call', _9 => _9((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _4 => _4.errors, 'optionalAccess', _5 => _5.map, 'call', _6 => _6((err) => err.message)]) || [e.message],
       });
     }
   }
@@ -188,7 +164,7 @@ class AlunoControllers {
       return res.status(200).json(user);
     } catch (e) {
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _10 => _10.errors, 'optionalAccess', _11 => _11.map, 'call', _12 => _12((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _7 => _7.errors, 'optionalAccess', _8 => _8.map, 'call', _9 => _9((err) => err.message)]) || [e.message],
       });
     }
   }
@@ -212,76 +188,45 @@ class AlunoControllers {
         });
       }
 
-      // Bloqueia alteração se o CPF já estiver cadastrado e for diferente
-      if (aluno.cpf_cnpj && cpfCnpj && aluno.cpf_cnpj !== cpfCnpj) {
+      // Não permite informar/alterar CPF se o aluno já possui um cadastrado
+      if (cpfCnpj && aluno.cpf_cnpj) {
         return res.status(400).json({
-          errors: ['CPF/CNPJ já cadastrado — não é permitido alterar.'],
+          errors: ['Este aluno já possui CPF/CNPJ cadastrado e ele não pode ser alterado.'],
         });
       }
 
-    // Caso o aluno ainda não tenha CPF e o usuário informar um novo
-      if (!aluno.cpf_cnpj && cpfCnpj) {
-        try {
-          const clienteAsaas = await _cliente_service2.default.cadastrarCliente({
-            nome: aluno.nome,
-            cpfCnpj,
-            email: aluno.email,
-            telefone: aluno.celular,
-          });
+      // Não permite usar um CPF/CNPJ que já exista no banco para outro aluno
+      if (cpfCnpj) {
+        const cpfExistente = await _Alunos2.default.findOne({
+          where: { cpf_cnpj: cpfCnpj },
+        });
 
-          await aluno.update({
-            cpf_cnpj: cpfCnpj,
-            cliente_id: clienteAsaas.id,
-            ...req.body, // garante atualização dos demais campos
-          });
-
-          return res.status(200).json({
-            message: 'CPF cadastrado e cliente criado com sucesso no Asaas.',
-            cliente_id: clienteAsaas.id,
-            cpf_cnpj: cpfCnpj,
-          });
-        } catch (err) {
-          console.error('Erro ao criar cliente no Asaas:', _optionalChain([err, 'access', _13 => _13.response, 'optionalAccess', _14 => _14.data]) || err.message);
+        if (cpfExistente && String(cpfExistente.id) !== String(id)) {
           return res.status(400).json({
-            errors: ['Erro ao criar cliente no Asaas. Verifique os dados informados.'],
+            errors: ['CPF/CNPJ já cadastrado no banco.'],
           });
         }
       }
 
-      // Atualização normal (sem criação de cliente no Asaas)
-      // Faz o mapeamento camelCase → snake_case, garantindo persistência
       const dadosAtualizados = { ...req.body };
 
-      if (cpfCnpj && !aluno.cpf_cnpj) {
+      // Mapeia camelCase -> snake_case
+      if (cpfCnpj) {
         dadosAtualizados.cpf_cnpj = cpfCnpj;
       }
 
-      delete dadosAtualizados.cpfCnpj; // remove duplicado
+      delete dadosAtualizados.cpfCnpj;
 
       const alunoAtualizado = await aluno.update(dadosAtualizados);
-
-        // No final do update do aluno
-      if (aluno.cpf_cnpj && (req.body.nome || req.body.celular)) {
-        try {
-          await _cliente_service2.default.atualizarClienteAsaas({
-            cpfCnpj: aluno.cpf_cnpj,
-            nome: req.body.nome,
-            telefone: req.body.celular,
-          });
-        } catch (err) {
-          console.error('Falha ao sincronizar dados com o Asaas:', err.message);
-        }
-      }
 
       return res.status(200).json({
         message: 'Dados do aluno atualizados com sucesso.',
         data: alunoAtualizado,
       });
-
     } catch (e) {
       console.error('Erro geral na atualização do aluno:', e);
       return res.status(400).json({
-        errors: _optionalChain([e, 'access', _15 => _15.errors, 'optionalAccess', _16 => _16.map, 'call', _17 => _17((err) => err.message)]) || [e.message],
+        errors: _optionalChain([e, 'access', _10 => _10.errors, 'optionalAccess', _11 => _11.map, 'call', _12 => _12((err) => err.message)]) || [e.message],
       });
     }
   }

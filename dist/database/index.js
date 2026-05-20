@@ -4,7 +4,10 @@ var _database = require('../config/database'); var _database2 = _interopRequireD
 var _Administrador = require('../Models/Administrador'); var _Administrador2 = _interopRequireDefault(_Administrador);
 var _Personal = require('../Models/Personal'); var _Personal2 = _interopRequireDefault(_Personal);
 var _FotoPersonal = require('../Models/FotoPersonal'); var _FotoPersonal2 = _interopRequireDefault(_FotoPersonal);
+var _RGPersonal = require('../Models/RGPersonal'); var _RGPersonal2 = _interopRequireDefault(_RGPersonal);
+var _DocumentoFotoPersonal = require('../Models/DocumentoFotoPersonal'); var _DocumentoFotoPersonal2 = _interopRequireDefault(_DocumentoFotoPersonal);
 var _PersonalAgenda = require('../Models/PersonalAgenda'); var _PersonalAgenda2 = _interopRequireDefault(_PersonalAgenda);
+var _Diploma = require('../Models/Diploma'); var _Diploma2 = _interopRequireDefault(_Diploma);
 var _Alunos = require('../Models/Alunos'); var _Alunos2 = _interopRequireDefault(_Alunos);
 var _FotoAlunos = require('../Models/FotoAlunos'); var _FotoAlunos2 = _interopRequireDefault(_FotoAlunos);
 var _AgendaAulas = require('../Models/AgendaAulas'); var _AgendaAulas2 = _interopRequireDefault(_AgendaAulas);
@@ -39,7 +42,10 @@ const models = [
   _videoExercicio2.default,
   _Subconta2.default,
   _PlanosPersonal2.default,
-  _Cobranca2.default
+  _Cobranca2.default,
+  _RGPersonal2.default,
+  _DocumentoFotoPersonal2.default,
+  _Diploma2.default
 ];
 
 const connection = new (0, _sequelize.Sequelize)(_database2.default);

@@ -125,6 +125,9 @@ export default class Personal extends Model {
     this.hasMany(models.AulaAgenda, { foreignKey: 'personal_id' });
     this.hasMany(models.ExercicioPersonal, { foreignKey: 'personal_id' });
     this.hasMany(models.planoTreino, { foreignKey: 'personal_id' });
+    this.hasMany(models.RgPersonal, {foreignKey: 'personal_id'} );
+    this.hasMany(models.FotoValidacao, {foreignKey: 'personal_id'} );
+    this.hasMany(models.Diploma, {foreignKey: 'personal_id'} );
   }
 
   // Relações com outras tabelas;

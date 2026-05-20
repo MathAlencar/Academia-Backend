@@ -19,6 +19,7 @@ var _alunosFotosRoutes = require('./routes/alunos/alunosFotosRoutes'); var _alun
 var _agendaRoutes = require('./routes/AgendaGeral/agendaRoutes'); var _agendaRoutes2 = _interopRequireDefault(_agendaRoutes);
 var _enredecosRoutes = require('./routes/enderecos/enredecosRoutes'); var _enredecosRoutes2 = _interopRequireDefault(_enredecosRoutes);
 var _chatRoutes = require('./routes/chat/chatRoutes'); var _chatRoutes2 = _interopRequireDefault(_chatRoutes);
+var _DocumentoRoutes = require('./routes/personal/DocumentoRoutes'); var _DocumentoRoutes2 = _interopRequireDefault(_DocumentoRoutes);
 
 // Rotas de treino
 var _ExerciciosPersonal = require('./routes/ExerciciosPersonal/ExerciciosPersonal'); var _ExerciciosPersonal2 = _interopRequireDefault(_ExerciciosPersonal);
@@ -30,7 +31,8 @@ var _videoExercicioRoutes = require('./routes/ExerciciosPersonal/videoExercicioR
 // Rotas de pagamento
 var _clienteRoutes = require('./routes/pagamento/clienteRoutes'); var _clienteRoutes2 = _interopRequireDefault(_clienteRoutes);
 var _cobrancaRoutes = require('./routes/pagamento/cobrancaRoutes'); var _cobrancaRoutes2 = _interopRequireDefault(_cobrancaRoutes);
-
+var _webhookRoutes = require('./routes/pagamento/webhookRoutes'); var _webhookRoutes2 = _interopRequireDefault(_webhookRoutes);  
+  
 // Personal planos
 var _planosPersonalRoutes = require('./routes/personal/planosPersonalRoutes'); var _planosPersonalRoutes2 = _interopRequireDefault(_planosPersonalRoutes);
 var _subcontaRoutes = require('./routes/pagamento/subcontaRoutes'); var _subcontaRoutes2 = _interopRequireDefault(_subcontaRoutes);
@@ -76,6 +78,7 @@ class App {
     this.app.use('/personal/', _personalRouter2.default);
     this.app.use('/agenda/', _agendaRoutes2.default);
     this.app.use('/chat/', _chatRoutes2.default);
+    this.app.use('/documento/', _DocumentoRoutes2.default);
 
     // Treino
     this.app.use('/exercicios/', _ExerciciosPersonal2.default);
@@ -87,6 +90,7 @@ class App {
     // Pagamento
     this.app.use('/cliente/', _clienteRoutes2.default);
     this.app.use('/cobranca/', _cobrancaRoutes2.default);
+    this.app.use('/webhook/', _webhookRoutes2.default);
 
     // Plano
     this.app.use('/personal/planos/', _planosPersonalRoutes2.default);

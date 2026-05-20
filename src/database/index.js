@@ -4,7 +4,10 @@ import databaseConfig from '../config/database';
 import Administrador from '../Models/Administrador';
 import Personal from '../Models/Personal';
 import PersonalFoto from '../Models/FotoPersonal';
+import RgPersonal from '../Models/RGPersonal';
+import FotoValidacao from '../Models/DocumentoFotoPersonal';
 import PersonalAgenda from '../Models/PersonalAgenda';
+import Diploma from '../Models/Diploma';
 import Alunos from '../Models/Alunos';
 import AlunoFoto from '../Models/FotoAlunos';
 import AulaAgenda from '../Models/AgendaAulas';
@@ -42,6 +45,9 @@ const models = [
   PlanosPersonal,
   Cobrancas,
   Notificacao
+  RgPersonal,
+  FotoValidacao,
+  Diploma
 ];
 
 const connection = new Sequelize(databaseConfig);

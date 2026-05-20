@@ -16,8 +16,6 @@ class PersonalAgenda {
         });
       }
 
-      console.log(req.body);
-
       const registerDate = await _PersonalAgenda2.default.create(req.body);
 
       return res.status(200).json(registerDate);
