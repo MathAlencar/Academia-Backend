@@ -20,6 +20,7 @@ import videoExercicio from '../Models/videoExercicio';
 import Subconta from '../Models/Subconta';
 import PlanosPersonal from '../Models/PlanosPersonal';
 import Cobrancas from '../Models/Cobranca';
+import Notificacao from '../Models/Notificacao';
 
 const models = [
   Administrador,
@@ -39,7 +40,8 @@ const models = [
   videoExercicio,
   Subconta,
   PlanosPersonal,
-  Cobrancas
+  Cobrancas,
+  Notificacao
 ];
 
 const connection = new Sequelize(databaseConfig);

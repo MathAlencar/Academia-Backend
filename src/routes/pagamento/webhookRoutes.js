@@ -3,7 +3,7 @@ import webhookControllers from '../../Controllers/pagamento/webhookControllers.j
   
 const router = new Router();  
   
-router.post('/asaas/payments', webhookControllers.payments);  
+router.post('/asaas/checkouts', webhookControllers.checkouts);
 router.post('/asaas/account-status', webhookControllers.accountStatus);  
 router.post('/asaas/transfers', webhookControllers.transfers);  
   
