@@ -13,6 +13,7 @@ import PersonalRoutes from './routes/personal/personalRouter';
 import tokenPersonalRoutes from './routes/personal/personalTokenRoutes';
 import PersonalFotoRoutes from './routes/personal/personalFotosRouter';
 import PersonalAgendaRoutes from './routes/personal/personalAgendaRoutes';
+import NotificacaoRoutes from './routes/personal/notificacaoRoutes';
 import AlunosRoutes from './routes/alunos/alunosRoutes';
 import tokenAlunosRoutes from './routes/alunos/alunosTokenRoutes';
 import AlunoFotosRoutes from './routes/alunos/alunosFotosRoutes';
@@ -72,6 +73,7 @@ class App {
     this.app.use('/alunos/', AlunosRoutes);
     this.app.use('/alunos/foto/', AlunoFotosRoutes);
     this.app.use('/personal/agenda/', PersonalAgendaRoutes);
+    this.app.use('/personal/notificacoes/', NotificacaoRoutes);
     this.app.use('/personal/token/', tokenPersonalRoutes);
     this.app.use('/personal/foto/', PersonalFotoRoutes);
     this.app.use('/personal/', PersonalRoutes);
