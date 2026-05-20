@@ -23,6 +23,7 @@ import videoExercicio from '../Models/videoExercicio';
 import Subconta from '../Models/Subconta';
 import PlanosPersonal from '../Models/PlanosPersonal';
 import Cobrancas from '../Models/Cobranca';
+import Notificacao from '../Models/Notificacao';
 
 const models = [
   Administrador,
@@ -43,6 +44,7 @@ const models = [
   Subconta,
   PlanosPersonal,
   Cobrancas,
+  Notificacao
   RgPersonal,
   FotoValidacao,
   Diploma
